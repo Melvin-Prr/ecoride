@@ -1,0 +1,99 @@
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { verifyToken } from "@/lib/auth";
+import { apiError, apiSuccess } from "@/lib/api-response";
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    // Verify authentication
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return apiError("Token manquant", 401);
+    }
+
+    const token = authHeader.substring(7);
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return apiError("Token invalide", 401);
+    }
+
+    const userId = decoded.userId;
+    const carpoolId = params.id;
+
+    // Find carpool
+    const carpool = await prisma.carpool.findUnique({
+where: { id: carpoolId },
+      include: {
+        driver: true,
+        bookings: {
+          where: { status: "CONFIRMED" },
+          include: { passenger: true },
+        },
+      },
+    });
+
+    if (!carpool) {
+      return apiError("Covoiturage introuvable", 404);
+    }
+
+    // Verify user is the driver
+    if (carpool.driverId !== userId) {
+      return apiError("Seul le conducteur peut terminer ce trajet", 403);
+    }
+
+    // Verify status
+    if (carpool.status !== "IN_PROGRESS") {
+      return apiError(
+        carpool.status === "PENDING"
+          ? "Vous devez d'abord démarrer le trajet"
+          : "Ce trajet est déjà terminé",
+        400
+      );
+    }
+
+    // Calculate total seats booked for completed trip
+    const confirmedBookings = carpool.bookings;
+    const totalSeatsBooked = confirmedBookings.reduce(
+      (sum: number, booking: any) => sum + booking.seatsBooked,
+      0
+    );
+
+    // Calculate credits to award driver (price per seat * total seats)
+    const creditsToAward = carpool.pricePerSeat * totalSeatsBooked;
+
+    // Transaction: Mark trip as completed and credit driver
+    const result = await prisma.$transaction(async (tx: any) => {
+      // Update carpool status
+      const updatedCarpool = await tx.carpool.update({
+        where: { id: carpoolId },
+        data: { status: "COMPLETED" },
+      });
+
+      // Credit the driver
+      const updatedDriver = await tx.user.update({
+        where: { id: userId },
+        data: {
+          credits: {
+            increment: creditsToAward,
+          },
+        },
+      });
+
+      return { carpool: updatedCarpool, driver: updatedDriver, creditsToAward };
+    });
+
+    // TODO: Send emails to passengers notifying trip completion
+    // This would use Nodemailer to send emails with review links
+
+    return apiSuccess({
+      ...result,
+      message: `Trajet terminé avec succès. Vous avez gagné ${creditsToAward} crédits.`,
+    });
+  } catch (error) {
+    console.error("Complete carpool error:", error);
+    return apiError("Erreur lors de la finalisation du trajet", 500);
+  }
+}

@@ -28,6 +28,7 @@ export default function ProfilePage() {
   const [profileData, setProfileData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"bookings" | "carpools">("bookings");
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -59,6 +60,134 @@ export default function ProfilePage() {
       console.error("Error fetching profile:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCancelBooking = async (bookingId: string) => {
+    if (!confirm("Êtes-vous sûr de vouloir annuler cette réservation ? Vos crédits seront remboursés.")) {
+      return;
+    }
+
+    setActionLoading(bookingId);
+    try {
+      const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`Réservation annulée avec succès. ${data.data.refundedCredits} crédits ont été remboursés.`);
+        // Refresh profile data
+        fetchProfileData();
+      } else {
+        alert(data.error || "Erreur lors de l'annulation de la réservation");
+      }
+    } catch (error) {
+      console.error("Error canceling booking:", error);
+      alert("Erreur lors de l'annulation de la réservation");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleCancelCarpool = async (carpoolId: string) => {
+    if (
+      !confirm(
+        "Êtes-vous sûr de vouloir annuler ce trajet ? Tous les passagers seront remboursés et notifiés."
+      )
+    ) {
+      return;
+    }
+
+    setActionLoading(carpoolId);
+    try {
+      const response = await fetch(`/api/carpools/${carpoolId}/cancel`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.data.message);
+        // Refresh profile data
+        fetchProfileData();
+      } else {
+        alert(data.error || "Erreur lors de l'annulation du trajet");
+      }
+    } catch (error) {
+      console.error("Error canceling carpool:", error);
+      alert("Erreur lors de l'annulation du trajet");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleStartTrip = async (carpoolId: string) => {
+    if (!confirm("Confirmer le démarrage du trajet ?")) {
+      return;
+    }
+
+    setActionLoading(carpoolId);
+    try {
+      const response = await fetch(`/api/carpools/${carpoolId}/start`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.data.message);
+        // Refresh profile data
+        fetchProfileData();
+      } else {
+        alert(data.error || "Erreur lors du démarrage du trajet");
+      }
+    } catch (error) {
+      console.error("Error starting trip:", error);
+      alert("Erreur lors du démarrage du trajet");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleCompleteTrip = async (carpoolId: string) => {
+    if (!confirm("Confirmer l'arrivée à destination ? Vous recevrez vos crédits.")) {
+      return;
+    }
+
+    setActionLoading(carpoolId);
+    try {
+      const response = await fetch(`/api/carpools/${carpoolId}/complete`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.data.message);
+        // Refresh profile data and user credits
+        fetchProfileData();
+      } else {
+        alert(data.error || "Erreur lors de la finalisation du trajet");
+      }
+    } catch (error) {
+      console.error("Error completing trip:", error);
+      alert("Erreur lors de la finalisation du trajet");
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -125,7 +254,13 @@ export default function ProfilePage() {
                   <span className="text-sm text-gray-600">Réservations</span>
                   <span className="font-semibold">{profileData.bookingsCount}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                                  variant="outline"
+                                  size="sm"
+                                  className="text-red-600 hover:text-red-700"
+                                  onClick={() => handleCancelBooking(booking.id)}
+                                  disabled={actionLoading === booking.id}
+                                >
+                                  {actionLoading === booking.id ? "Annulation..." : "Annuler"}s-center justify-between">
                   <span className="text-sm text-gray-600">Trajets proposés</span>
                   <span className="font-semibold">{profileData.carpoolsCount}</span>
                 </div>
@@ -325,7 +460,7 @@ export default function ProfilePage() {
                                 </span>
                               </div>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 flex-wrap">
                               <Button asChild variant="outline" size="sm">
                                 <Link href={`/covoiturages/${carpool.id}`}>
                                   Voir détails
@@ -333,8 +468,36 @@ export default function ProfilePage() {
                                 </Link>
                               </Button>
                               {carpool.status === "PENDING" && (
-                                <Button variant="outline" size="sm">
-                                  Modifier
+                                <>
+                                  <Button
+                                    variant="default"
+                                    size="sm"
+                                    className="bg-green-600 hover:bg-green-700"
+                                    onClick={() => handleStartTrip(carpool.id)}
+                                    disabled={actionLoading === carpool.id}
+                                  >
+                                    {actionLoading === carpool.id ? "Démarrage..." : "Démarrer"}
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-red-600 hover:text-red-700"
+                                    onClick={() => handleCancelCarpool(carpool.id)}
+                                    disabled={actionLoading === carpool.id}
+                                  >
+                                    {actionLoading === carpool.id ? "Annulation..." : "Annuler"}
+                                  </Button>
+                                </>
+                              )}
+                              {carpool.status === "IN_PROGRESS" && (
+                                <Button
+                                  variant="default"
+                                  size="sm"
+                                  className="bg-blue-600 hover:bg-blue-700"
+                                  onClick={() => handleCompleteTrip(carpool.id)}
+                                  disabled={actionLoading === carpool.id}
+                                >
+                                  {actionLoading === carpool.id ? "Finalisation..." : "Arrivée à destination"}
                                 </Button>
                               )}
                             </div>
