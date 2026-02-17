@@ -254,13 +254,7 @@ export default function ProfilePage() {
                   <span className="text-sm text-gray-600">Réservations</span>
                   <span className="font-semibold">{profileData.bookingsCount}</span>
                 </div>
-                                  variant="outline"
-                                  size="sm"
-                                  className="text-red-600 hover:text-red-700"
-                                  onClick={() => handleCancelBooking(booking.id)}
-                                  disabled={actionLoading === booking.id}
-                                >
-                                  {actionLoading === booking.id ? "Annulation..." : "Annuler"}s-center justify-between">
+                <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Trajets proposés</span>
                   <span className="font-semibold">{profileData.carpoolsCount}</span>
                 </div>
@@ -387,8 +381,14 @@ export default function ProfilePage() {
                                 </Link>
                               </Button>
                               {booking.status === "CONFIRMED" && (
-                                <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                                  Annuler
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="text-red-600 hover:text-red-700"
+                                  onClick={() => handleCancelBooking(booking.id)}
+                                  disabled={actionLoading === booking.id}
+                                >
+                                  {actionLoading === booking.id ? "Annulation..." : "Annuler"}
                                 </Button>
                               )}
                             </div>
