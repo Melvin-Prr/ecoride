@@ -59,12 +59,16 @@ EcoRide est une application web de covoiturage mettant l'accent sur l'écologie 
    NEXTAUTH_URL="http://localhost:3000"
    NEXTAUTH_SECRET="your-nextauth-secret"
 
-   # Email (pour les notifications)
-   SMTP_HOST="smtp.example.com"
+   # Email (Notifications via Nodemailer)
+   SMTP_HOST="smtp.gmail.com"
    SMTP_PORT="587"
-   SMTP_USER="your-email@example.com"
-   SMTP_PASSWORD="your-password"
+   SMTP_SECURE="false"
+   SMTP_USER="your-email@gmail.com"
+   SMTP_PASS="your-gmail-app-password"
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
    ```
+
+   **Note**: Pour Gmail, créez un mot de passe d'application : [Guide Google](https://support.google.com/accounts/answer/185833)
 
 4. **Initialiser la base de données**
 
