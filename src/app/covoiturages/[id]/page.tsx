@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,74 +19,53 @@ import {
   MessageCircle,
   ArrowLeft,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function CarpoolDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { user, token } = useAuth();
   const carpoolId = params.id as string;
+  
+  const [carpool, setCarpool] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [booking, setBooking] = useState(false);
 
-  // Mock data - will be replaced with API call
-  const carpool = {
-    id: carpoolId,
-    departure: "Paris, 75001",
-    destination: "Lyon, 69001",
-    departureDate: "2026-02-20",
-    departureTime: "09:00",
-    arrivalTime: "13:30",
-    availableSeats: 3,
-    pricePerSeat: 30,
-    platformPrice: 32,
-    status: "PENDING",
-    driver: {
-      pseudo: "JeanDupont",
-      rating: 4.8,
-      totalTrips: 45,
-    },
-    vehicle: {
-      brand: "Tesla",
-      model: "Model 3",
-      energyType: "ELECTRIC",
-      seats: 4,
-    },
-    preferences: {
-      smokingAllowed: false,
-      petsAllowed: true,
-      musicAllowed: true,
-      talkingAllowed: true,
-    },
-    reviews: [
-      {
-        id: "1",
-        author: "Marie89",
-        rating: 5,
-        comment: "Excellent conducteur, très ponctuel et agréable !",
-        createdAt: "2026-02-10",
-      },
-      {
-        id: "2",
-        author: "PaulMartin",
-        rating: 4,
-        comment: "Trajet confortable, bonne musique.",
-        createdAt: "2026-02-05",
-      },
-      {
-        id: "3",
-        author: "Sophie22",
-        rating: 5,
-        comment: "Trajet parfait, je recommande vivement !",
-        createdAt: "2026-01-28",
-      },
-    ],
-  };
+  useEffect(() => {
+    const fetchCarpool = async () => {
+      try {
+        const response = await fetch(`/api/carpools/${carpoolId}`);
+        const data = await response.json();
+        
+        if (response.ok) {
+          setCarpool(data.data);
+        } else {
+          console.error("Failed to load carpool:", data.error);
+          alert("Impossible de charger ce covoiturage.");
+          router.push("/covoiturages");
+        }
+      } catch (error) {
+        console.error("Error fetching carpool:", error);
+        alert("Erreur lors du chargement du covoiturage.");
+        router.push("/covoiturages");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const isEco = carpool.vehicle.energyType === "ELECTRIC" || carpool.vehicle.energyType === "HYBRID";
-  const hasAvailableSeats = carpool.availableSeats > 0;
+    fetchCarpool();
+  }, [carpoolId, router]);
 
-  // Mock user credits (will come from auth context)
-  const userCredits = 50;
-  const hasEnoughCredits = userCredits >= carpool.platformPrice;
+  const isEco = carpool?.vehicle?.energyType === "ELECTRIC" || carpool?.vehicle?.energyType === "HYBRID";
+  const hasAvailableSeats = carpool?.availableSeats > 0;
+  const hasEnoughCredits = (user?.credits || 0) >= (carpool?.platformPrice || 0);
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
+    if (!user || !token) {
+      router.push("/login");
+      return;
+    }
+
     if (!hasAvailableSeats) {
       alert("Désolé, il n'y a plus de places disponibles.");
       return;
@@ -94,26 +74,61 @@ export default function CarpoolDetailPage() {
       alert(`Vous n'avez pas assez de crédits. Il vous faut ${carpool.platformPrice} crédits.`);
       return;
     }
-    // Redirect to login if not authenticated (mock check)
-    const isAuthenticated = false; // This will come from auth context
-    if (!isAuthenticated) {
-      router.push("/login");
-      return;
-    }
+
     // Show confirmation modal
     const confirmed = confirm(
-      `Confirmer la réservation ?\n\nCela vous coûtera ${carpool.platformPrice} crédits.\nVous avez actuellement ${userCredits} crédits.`
+      `Confirmer la réservation ?\n\nCela vous coûtera ${carpool.platformPrice} crédits.\nVous avez actuellement ${user.credits} crédits.`
     );
-    if (confirmed) {
-      // Second confirmation
-      const doubleConfirm = confirm(
-        "Êtes-vous sûr de vouloir réserver ce covoiturage ?"
-      );
-      if (doubleConfirm) {
-        alert("Réservation confirmée ! (fonctionnalité à implémenter)");
+    
+    if (!confirmed) return;
+
+    setBooking(true);
+    
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          carpoolId: carpool.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`Réservation confirmée ! Il vous reste ${data.data.remainingCredits} crédits.`);
+        // Refresh carpool data to update available seats
+        const refreshResponse = await fetch(`/api/carpools/${carpoolId}`);
+        const refreshData = await refreshResponse.json();
+        if (refreshResponse.ok) {
+          setCarpool(refreshData.data);
+        }
+        router.push("/profile");
+      } else {
+        alert(data.error || "Erreur lors de la réservation.");
       }
+    } catch (error) {
+      console.error("Booking error:", error);
+      alert("Erreur lors de la réservation. Veuillez réessayer.");
+    } finally {
+      setBooking(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8 px-4 flex items-center justify-center">
+        <p className="text-gray-600">Chargement...</p>
+      </div>
+    );
+  }
+
+  if (!carpool) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -396,30 +411,36 @@ export default function CarpoolDetailPage() {
                 </div>
 
                 {/* User Credits */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Vos crédits</span>
-                    <span className="font-semibold">{userCredits} crédits</span>
+                {user && (
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Vos crédits</span>
+                      <span className="font-semibold">{user.credits} crédits</span>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Booking Button */}
                 <Button
                   className="w-full bg-green-600 hover:bg-green-700 text-white"
                   size="lg"
                   onClick={handleBooking}
-                  disabled={!hasAvailableSeats || !hasEnoughCredits}
+                  disabled={booking || !hasAvailableSeats || (!user || !hasEnoughCredits)}
                 >
-                  {!hasAvailableSeats
+                  {booking
+                    ? "Réservation..."
+                    : !user
+                    ? "Connectez-vous pour réserver"
+                    : !hasAvailableSeats
                     ? "Plus de places disponibles"
                     : !hasEnoughCredits
                     ? "Crédits insuffisants"
                     : "Participer à ce trajet"}
                 </Button>
 
-                {!hasEnoughCredits && hasAvailableSeats && (
+                {user && !hasEnoughCredits && hasAvailableSeats && (
                   <p className="text-sm text-red-600 text-center">
-                    Il vous manque {carpool.platformPrice - userCredits} crédits
+                    Il vous manque {carpool.platformPrice - user.credits} crédits
                   </p>
                 )}
               </CardContent>

@@ -16,66 +16,13 @@ export default function CarpoolsPage() {
   const [carpools, setCarpools] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+  const [suggestedDate, setSuggestedDate] = useState<string | null>(null);
 
-  // Mock data for testing (will be replaced with API call)
-  const mockCarpools = [
-    {
-      id: "1",
-      departure: "Paris",
-      destination: "Lyon",
-      departureDate: "2026-02-20",
-      departureTime: "09:00",
-      arrivalTime: "13:30",
-      availableSeats: 3,
-      platformPrice: 32,
-      driver: {
-        pseudo: "JeanDupont",
-        rating: 4.8,
-      },
-      vehicle: {
-        energyType: "ELECTRIC",
-      },
-    },
-    {
-      id: "2",
-      departure: "Paris",
-      destination: "Lyon",
-      departureDate: "2026-02-20",
-      departureTime: "14:00",
-      arrivalTime: "18:30",
-      availableSeats: 2,
-      platformPrice: 28,
-      driver: {
-        pseudo: "Marie123",
-        rating: 4.5,
-      },
-      vehicle: {
-        energyType: "HYBRID",
-      },
-    },
-    {
-      id: "3",
-      departure: "Paris",
-      destination: "Lyon",
-      departureDate: "2026-02-20",
-      departureTime: "16:30",
-      arrivalTime: "21:00",
-      availableSeats: 1,
-      platformPrice: 25,
-      driver: {
-        pseudo: "PaulMartin",
-        rating: 4.9,
-      },
-      vehicle: {
-        energyType: "GASOLINE",
-      },
-    },
-  ];
-
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setSearched(true);
+    setSuggestedDate(null);
 
     // Validation
     if (!departure || !destination || !date) {
@@ -84,17 +31,31 @@ export default function CarpoolsPage() {
       return;
     }
 
-    // Simulate API call
-    setTimeout(() => {
-      // Filter mock data based on search (simple example)
-      const results = mockCarpools.filter(
-        (carpool) =>
-          carpool.departure.toLowerCase().includes(departure.toLowerCase()) &&
-          carpool.destination.toLowerCase().includes(destination.toLowerCase())
-      );
-      setCarpools(results);
+    try {
+      const params = new URLSearchParams({
+        from: departure,
+        to: destination,
+        date: date,
+      });
+
+      const response = await fetch(`/api/carpools/search?${params}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setCarpools(data.data.carpools);
+        if (data.data.suggestedDate) {
+          setSuggestedDate(data.data.suggestedDate);
+        }
+      } else {
+        console.error("Search error:", data.error);
+        setCarpools([]);
+      }
+    } catch (error) {
+      console.error("Search failed:", error);
+      setCarpools([]);
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
 
   // Auto-search if URL params are present
@@ -206,7 +167,7 @@ export default function CarpoolsPage() {
               <Card className="border-orange-200 bg-orange-50">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-4">
-                    <AlertCircle className="h-6 w-6 text-orange-600 flex-shrink-0 mt-1" />
+                    <AlertCircle className="h-6 w-6 text-orange-600 shrink-0 mt-1" />
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-2">
                         Aucun covoiturage disponible pour cette recherche
@@ -215,15 +176,17 @@ export default function CarpoolsPage() {
                         Nous n&apos;avons trouvé aucun trajet correspondant à vos critères pour cette
                         date.
                       </p>
-                      <p className="text-sm text-gray-700">
-                        <strong>Suggestion :</strong> Essayez une autre date, par exemple le{" "}
-                        {new Date(new Date(date).getTime() + 86400000).toLocaleDateString("fr-FR", {
-                          weekday: "long",
-                          day: "numeric",
-                          month: "long",
-                        })}
-                        .
-                      </p>
+                      {suggestedDate && (
+                        <p className="text-sm text-gray-700">
+                          <strong>Suggestion :</strong> Essayez une autre date, par exemple le{" "}
+                          {new Date(suggestedDate).toLocaleDateString("fr-FR", {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                          })}
+                          .
+                        </p>
+                      )}
                     </div>
                   </div>
                 </CardContent>

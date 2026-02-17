@@ -7,9 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Leaf, Mail, User, Lock, AlertCircle } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { register: registerUser } = useAuth();
   const [formData, setFormData] = useState({
     pseudo: "",
     email: "",
@@ -66,24 +68,10 @@ export default function RegisterPage() {
 
     setLoading(true);
 
-    try {
-      // TODO: API call to register user
-      // const response = await fetch('/api/auth/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     pseudo: formData.pseudo,
-      //     email: formData.email,
-      //     password: formData.password,
-      //   }),
-      // });
-
-      // Mock success
-      setTimeout(() => {
-        alert("Compte créé avec succès ! Vous recevez 20 crédits de bienvenue.");
-        router.push("/login");
-      }, 1000);
+    trawait registerUser(formData.email, formData.pseudo, formData.password);
+      router.push("/");
     } catch (error) {
+      setErrors({ general: error instanceof Error ? error.message 
       setErrors({ general: "Une erreur est survenue. Veuillez réessayer." });
     } finally {
       setLoading(false);

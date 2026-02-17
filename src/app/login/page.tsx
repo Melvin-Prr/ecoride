@@ -7,9 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Leaf, Mail, Lock, AlertCircle } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,24 +43,11 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    try {
-      // TODO: API call to login
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     email: formData.email,
-      //     password: formData.password,
-      //   }),
-      // });
-
-      // Mock success
-      setTimeout(() => {
-        alert("Connexion réussie !");
-        router.push("/");
-      }, 1000);
+    trawait login(formData.email, formData.password);
+      router.push("/");
     } catch (error) {
       setErrors({
+        general: error instanceof Error ? error.message ({
         general: "Email ou mot de passe incorrect. Veuillez réessayer.",
       });
     } finally {
