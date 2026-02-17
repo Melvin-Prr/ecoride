@@ -8,14 +8,16 @@ EcoRide est une application web de covoiturage mettant l'accent sur l'écologie 
 
 ## 🛠️ Technologies utilisées
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
-- **Base de données relationnelle**: PostgreSQL (via Prisma)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Base de données relationnelle**: PostgreSQL
 - **Base de données NoSQL**: MongoDB (logs et notifications)
-- **Authentification**: JWT / NextAuth.js
-- **Déploiement**: Vercel
+- **Authentification**: JWT
+- **Email**: Nodemailer (SMTP)
+- **Déploiement**: Vercel (recommandé)
 
 ## 🚀 Installation et déploiement local
 
@@ -124,10 +126,10 @@ EcoRide est une application web de covoiturage mettant l'accent sur l'écologie 
 
 Des comptes de test sont disponibles après l'exécution du seed :
 
-- **Admin**: admin@ecoride.com / Admin123!
-- **Employé**: employee@ecoride.com / Employee123!
-- **Conducteur**: driver@ecoride.com / Driver123!
-- **Passager**: passenger@ecoride.com / Passenger123!
+- **Admin**: admin@ecoride.com / Password123!
+- **Employé**: employee@ecoride.com / Password123!
+- **Conducteur**: driver@ecoride.com / Password123!
+- **Passager**: passenger@ecoride.com / Password123!
 
 ## 🔒 Sécurité
 
@@ -140,10 +142,12 @@ Des comptes de test sont disponibles après l'exécution du seed :
 
 ## 📖 Documentation
 
-- [Manuel utilisateur](./docs/user-manual.pdf)
-- [Documentation technique](./docs/technical-documentation.pdf)
-- [Charte graphique](./docs/brand-guidelines.pdf)
-- [Documentation de gestion de projet](./docs/project-management.pdf)
+- [Manuel utilisateur](./docs/USER_MANUAL.md) - Guide complet pour tous les utilisateurs
+- [Documentation technique](./docs/TECHNICAL_DOCUMENTATION.md) - Architecture, API, sécurité
+- [Documentation base de données](./docs/DATABASE_DOCUMENTATION.md) - Schémas, MCD, transactions
+- [Diagrammes UML](./docs/UML_DIAGRAMS.md) - Use case, séquence, classe, état
+- [Charte graphique](./docs/BRAND_GUIDELINES.md) - Design system complet
+- [Guide de déploiement](./docs/DEPLOYMENT_GUIDE.md) - Déploiement production étape par étape
 
 ## 🤝 Contribution
 
