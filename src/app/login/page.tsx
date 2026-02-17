@@ -43,12 +43,12 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    trawait login(formData.email, formData.password);
+    try {
+      await login(formData.email, formData.password);
       router.push("/");
     } catch (error) {
       setErrors({
-        general: error instanceof Error ? error.message ({
-        general: "Email ou mot de passe incorrect. Veuillez réessayer.",
+        general: error instanceof Error ? error.message : "Email ou mot de passe incorrect. Veuillez réessayer.",
       });
     } finally {
       setLoading(false);
