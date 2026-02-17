@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 import { apiError, apiSuccess } from "@/lib/api-response";
 import { sendTripCancelledNotification } from "@/lib/email";
+import { createLog, createNotification } from "@/lib/logging";
 
 export async function DELETE(
   req: NextRequest,
@@ -115,6 +116,30 @@ export async function DELETE(
     Promise.all(emailPromises).catch((error) =>
       console.error("Some cancellation emails failed:", error)
     );
+
+    // Create notifications for all passengers
+    refunds.forEach((refund) => {
+      createNotification({
+        userId: refund.passengerId,
+        type: "trip_cancel",
+        title: "Trajet annulé",
+        message: `Le trajet ${carpool.departure} → ${carpool.destination} a été annulé. ${refund.refundedCredits} crédits remboursés`,
+        data: { carpoolId: carpool.id, refundAmount: refund.refundedCredits },
+      }).catch(console.error);
+    });
+
+    // Log trip cancellation
+    createLog({
+      timestamp: new Date(),
+      action: "trip_cancelled",
+      userId: userId,
+      details: {
+        carpoolId: carpool.id,
+        refundsIssued: refunds.length,
+        totalRefunded: refunds.reduce((sum, r) => sum + r.refundedCredits, 0),
+      },
+      statusCode: 200,
+    }).catch(console.error);
 
     return apiSuccess({
       message: "Trajet annulé avec succès. Les passagers ont été remboursés.",

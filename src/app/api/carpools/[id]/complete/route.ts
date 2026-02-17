@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 import { apiError, apiSuccess } from "@/lib/api-response";
 import { sendTripCompletedNotification } from "@/lib/email";
+import { createLog, createNotification } from "@/lib/logging";
 
 export async function PUT(
   req: NextRequest,
@@ -107,6 +108,38 @@ where: { id: carpoolId },
     Promise.all(emailPromises).catch((error) =>
       console.error("Some trip completed emails failed:", error)
     );
+
+    // Create notifications for all passengers and driver
+    confirmedBookings.forEach((booking: any) => {
+      createNotification({
+        userId: booking.passengerId,
+        type: "trip_complete",
+        title: "Trajet terminé",
+        message: `Le trajet ${carpool.departure} → ${carpool.destination} est terminé. Laissez un avis !",
+        data: { carpoolId: carpool.id, bookingId: booking.id },
+      }).catch(console.error);
+    });
+
+    createNotification({
+      userId: userId,
+      type: "credits",
+      title: "Crédits gagnés",
+      message: `Vous avez gagné ${result.creditsToAward} crédits pour votre trajet`,
+      data: { carpoolId: carpool.id, credits: result.creditsToAward },
+    }).catch(console.error);
+
+    // Log trip completion
+    createLog({
+      timestamp: new Date(),
+      action: "trip_completed",
+      userId: userId,
+      details: {
+        carpoolId: carpool.id,
+        creditsAwarded: result.creditsToAward,
+        passengersCount: confirmedBookings.length,
+      },
+      statusCode: 200,
+    }).catch(console.error);
 
     return apiSuccess({
       ...result,

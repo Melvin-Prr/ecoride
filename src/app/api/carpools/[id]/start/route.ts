@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 import { apiError, apiSuccess } from "@/lib/api-response";
 import { sendTripStartedNotification } from "@/lib/email";
+import { createLog, createNotification } from "@/lib/logging";
 
 export async function PUT(
   req: NextRequest,
@@ -80,6 +81,29 @@ export async function PUT(
     Promise.all(emailPromises).catch((error) =>
       console.error("Some trip started emails failed:", error)
     );
+
+    // Create notifications for all passengers
+    carpool.bookings.forEach((booking) => {
+      createNotification({
+        userId: booking.passengerId,
+        type: "trip_start",
+        title: "Trajet démarré",
+        message: `Le trajet ${carpool.departure} → ${carpool.destination} a démarré`,
+        data: { carpoolId: carpool.id, bookingId: booking.id },
+      }).catch(console.error);
+    });
+
+    // Log trip start
+    createLog({
+      timestamp: new Date(),
+      action: "trip_started",
+      userId: userId,
+      details: {
+        carpoolId: carpool.id,
+        passengersCount: carpool.bookings.length,
+      },
+      statusCode: 200,
+    }).catch(console.error);
 
     return apiSuccess({
       carpool: updatedCarpool,
