@@ -7,6 +7,7 @@ import {
   unauthorizedResponse,
   notFoundResponse,
 } from "@/lib/api-response";
+import { sendBookingConfirmation } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -127,7 +128,24 @@ export async function POST(request: NextRequest) {
       return booking;
     });
 
-    // TODO: Send email notification to driver
+    // Send booking confirmation email to passenger
+    try {
+      await sendBookingConfirmation({
+        passengerName: result.passenger.pseudo,
+        passengerEmail: result.passenger.email,
+        driverName: result.carpool.driver.pseudo,
+        departure: result.carpool.departure,
+        destination: result.carpool.destination,
+        departureDate: result.carpool.departureDate.toISOString(),
+        departureTime: result.carpool.departureTime,
+        seatsBooked: result.seats,
+        totalPrice: totalCost,
+        carpoolId: result.carpoolId,
+      });
+    } catch (emailError) {
+      console.error("Failed to send booking confirmation email:", emailError);
+      // Don't fail the booking if email fails
+    }
 
     return successResponse(
       {

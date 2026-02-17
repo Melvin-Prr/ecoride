@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 import { apiError, apiSuccess } from "@/lib/api-response";
+import { sendTripCancelledNotification } from "@/lib/email";
 
 export async function DELETE(
   req: NextRequest,
@@ -90,8 +91,30 @@ export async function DELETE(
       return refundResults;
     });
 
-    // TODO: Send emails to all passengers notifying cancellation and refund
-    // This would use Nodemailer
+    // Send cancellation emails to all passengers
+    const emailPromises = refunds.map((refund) =>
+      sendTripCancelledNotification({
+        recipientName: carpool.bookings.find((b) => b.passengerId === refund.passengerId)
+          ?.passenger.pseudo || "Passager",
+        recipientEmail: refund.passengerEmail,
+        departure: carpool.departure,
+        destination: carpool.destination,
+        departureDate: carpool.departureDate.toISOString(),
+        departureTime: carpool.departureTime,
+        refundAmount: refund.refundedCredits,
+        reason: "Le conducteur a annulé le trajet",
+      }).catch((error) => {
+        console.error(
+          `Failed to send cancellation email to ${refund.passengerEmail}:`,
+          error
+        );
+      })
+    );
+
+    // Send all emails in parallel (don't wait for completion)
+    Promise.all(emailPromises).catch((error) =>
+      console.error("Some cancellation emails failed:", error)
+    );
 
     return apiSuccess({
       message: "Trajet annulé avec succès. Les passagers ont été remboursés.",

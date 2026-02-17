@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 import { apiError, apiSuccess } from "@/lib/api-response";
+import { sendTripStartedNotification } from "@/lib/email";
 
 export async function PUT(
   req: NextRequest,
@@ -58,8 +59,27 @@ export async function PUT(
       data: { status: "IN_PROGRESS" },
     });
 
-    // TODO: Send emails to passengers notifying trip has started
-    // This would use Nodemailer to send emails
+    // Send email notifications to all passengers
+    const emailPromises = carpool.bookings.map((booking) =>
+      sendTripStartedNotification({
+        passengerName: booking.passenger.pseudo,
+        passengerEmail: booking.passenger.email,
+        driverName: carpool.driver.pseudo,
+        departure: carpool.departure,
+        destination: carpool.destination,
+        carpoolId: carpool.id,
+      }).catch((error) => {
+        console.error(
+          `Failed to send trip started email to ${booking.passenger.email}:`,
+          error
+        );
+      })
+    );
+
+    // Send all emails in parallel (don't wait for completion)
+    Promise.all(emailPromises).catch((error) =>
+      console.error("Some trip started emails failed:", error)
+    );
 
     return apiSuccess({
       carpool: updatedCarpool,
