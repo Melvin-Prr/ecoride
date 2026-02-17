@@ -7,6 +7,7 @@ import {
   unauthorizedResponse,
   validationErrorResponse,
 } from "@/lib/api-response";
+import { createLog, createNotification } from "@/lib/logging";
 
 export async function POST(request: NextRequest) {
   try {
@@ -109,6 +110,31 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    // Create notification for driver
+    createNotification({
+      userId: user.userId,
+      type: "booking",
+      title: "Covoiturage créé",
+      message: `Votre trajet ${carpool.departure} → ${carpool.destination} est maintenant publié`,
+      data: { carpoolId: carpool.id },
+    }).catch(console.error);
+
+    // Log carpool creation
+    createLog({
+      timestamp: new Date(),
+      action: "carpool_created",
+      userId: user.userId,
+      details: {
+        carpoolId: carpool.id,
+        departure: carpool.departure,
+        destination: carpool.destination,
+        departureDate: carpool.departureDate,
+        availableSeats: carpool.availableSeats,
+        pricePerSeat: carpool.pricePerSeat,
+      },
+      statusCode: 201,
+    }).catch(console.error);
 
     return successResponse(carpool, 201);
   } catch (error) {

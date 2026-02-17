@@ -8,6 +8,7 @@ import {
   notFoundResponse,
 } from "@/lib/api-response";
 import { sendBookingConfirmation } from "@/lib/email";
+import { createLog, createNotification } from "@/lib/logging";
 
 export async function POST(request: NextRequest) {
   try {
@@ -146,6 +147,37 @@ export async function POST(request: NextRequest) {
       console.error("Failed to send booking confirmation email:", emailError);
       // Don't fail the booking if email fails
     }
+
+    // Create notifications for driver and passenger
+    createNotification({
+      userId: result.carpool.driverId,
+      type: "booking",
+      title: "Nouvelle réservation",
+      message: `${result.passenger.pseudo} a réservé ${result.seats} place(s) pour votre trajet ${result.carpool.departure} → ${result.carpool.destination}`,
+      data: { bookingId: result.id, carpoolId: result.carpoolId },
+    }).catch(console.error);
+
+    createNotification({
+      userId: user.userId,
+      type: "booking",
+      title: "Réservation confirmée",
+      message: `Votre réservation pour ${result.carpool.departure} → ${result.carpool.destination} est confirmée`,
+      data: { bookingId: result.id, carpoolId: result.carpoolId },
+    }).catch(console.error);
+
+    // Log booking creation
+    createLog({
+      timestamp: new Date(),
+      action: "booking_created",
+      userId: user.userId,
+      details: {
+        bookingId: result.id,
+        carpoolId: result.carpoolId,
+        seats: result.seats,
+        totalCost,
+      },
+      statusCode: 201,
+    }).catch(console.error);
 
     return successResponse(
       {

@@ -6,6 +6,7 @@ import {
   errorResponse,
   validationErrorResponse,
 } from "@/lib/api-response";
+import { createLog } from "@/lib/logging";
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,6 +61,18 @@ export async function POST(request: NextRequest) {
 
     // Return user data (without password)
     const { password: _, ...userWithoutPassword } = user;
+
+    // Log successful login
+    createLog({
+      timestamp: new Date(),
+      action: "login_success",
+      userId: user.id,
+      userEmail: user.email,
+      userRole: user.role,
+      ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown",
+      userAgent: request.headers.get("user-agent") || "unknown",
+      statusCode: 200,
+    }).catch(console.error);
 
     return successResponse({
       user: userWithoutPassword,
