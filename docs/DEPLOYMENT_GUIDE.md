@@ -237,7 +237,7 @@ Collections are created automatically by the app, but you can pre-create them:
 ### 4.2 Import Repository
 1. Click "Add New..." → "Project"
 2. **Import Git Repository** section
-3. Find your `ecoride-platform` repository
+3. Find your `ecoride` repository
 4. Click "Import"
 
 ### 4.3 Configure Project
@@ -267,7 +267,7 @@ SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-gmail-app-password
 
 # App URL (will be provided after deployment, update later)
-NEXT_PUBLIC_APP_URL=https://ecoride-platform.vercel.app
+NEXT_PUBLIC_APP_URL=https://ecoride.vercel.app
 ```
 
 **How to get Gmail App Password**:
@@ -284,7 +284,7 @@ NEXT_PUBLIC_APP_URL=https://ecoride-platform.vercel.app
 3. **Success!** You'll see: 🎉 Congratulations
 
 ### 4.6 Get Deployment URL
-- Your app is live at: `https://ecoride-platform.vercel.app`
+- Your app is live at: `https://ecoride.vercel.app`
 - Or custom: `https://your-project-name.vercel.app`
 
 ### 4.7 Update NEXT_PUBLIC_APP_URL
@@ -292,7 +292,7 @@ NEXT_PUBLIC_APP_URL=https://ecoride-platform.vercel.app
 2. **Settings** → **Environment Variables**
 3. Find `NEXT_PUBLIC_APP_URL`
 4. Click **Edit**
-5. **Value**: `https://ecoride-platform.vercel.app` (your actual URL)
+5. **Value**: `https://ecoride.vercel.app` (your actual URL)
 6. **Save**
 7. **Redeploy**: Deployments tab → Latest → ⋯ → Redeploy
 
@@ -480,11 +480,11 @@ Vercel automatically deploys when you push to GitHub:
 
 ### 8.2 Environment-Specific Deployments
 1. **Production** (main branch):
-   - URL: ecoride-platform.vercel.app
+   - URL: ecoride.vercel.app
    - Environment: Production variables
 
 2. **Staging** (develop branch):
-   - URL: ecoride-platform-git-develop.vercel.app
+   - URL: ecoride-git-develop.vercel.app
    - Environment: Can use same or separate database
 
 ### 8.3 Deployment Protection

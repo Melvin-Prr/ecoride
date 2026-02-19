@@ -395,15 +395,7 @@ git commit -m "docs: update README with deployment steps"
 ### Application déployée
 
 <!-- À COMPLÉTER après déploiement -->
-🌐 **URL de production** : [À AJOUTER - ex: https://ecoride-platform.vercel.app]
-
-### Services recommandés (gratuits)
-
-- **Frontend** : [Vercel](https://vercel.com) (Next.js natif)
-- **PostgreSQL** : [Supabase](https://supabase.com) ou [Neon](https://neon.tech)
-- **MongoDB** : [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (tier gratuit 512MB)
-
-Guide complet : [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)
+🌐 **URL de production** : [À AJOUTER - ex: https://ecoride.vercel.app]
 
 ---
 

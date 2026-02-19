@@ -1219,7 +1219,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-gmail-app-password
-NEXT_PUBLIC_APP_URL=https://ecoride-platform.vercel.app
+NEXT_PUBLIC_APP_URL=https://ecoride.vercel.app
 ```
 
 #### 5. Verify Deployment

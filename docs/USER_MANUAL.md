@@ -50,7 +50,7 @@ EcoRide is an ecological carpooling platform that connects drivers and passenger
 
 ### Creating Your Account
 
-1. **Navigate to EcoRide**: Visit https://ecoride-platform.vercel.app (or local: http://localhost:3000)
+1. **Navigate to EcoRide**: Visit https://ecoride.vercel.app (or local: http://localhost:3000)
 
 2. **Click "S'inscrire"** (Register) in the top navigation
 
