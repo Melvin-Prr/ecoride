@@ -219,8 +219,8 @@ export default function ProfilePage() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-center mb-4">
-                  <div className="h-24 w-24 rounded-full bg-green-100 flex items-center justify-center">
-                    <User className="h-12 w-12 text-green-600" />
+                  <div className="h-24 w-24 rounded-full bg-blue-100 flex items-center justify-center">
+                    <User className="h-12 w-12 text-primary" />
                   </div>
                 </div>
                 <CardTitle className="text-center">{user.pseudo}</CardTitle>
@@ -234,12 +234,12 @@ export default function ProfilePage() {
                   <UserCog className="h-5 w-5" />
                   <span className="text-sm capitalize">{user.role.toLowerCase()}</span>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Coins className="h-6 w-6 text-green-600" />
+                    <Coins className="h-6 w-6 text-secondary" />
                     <span className="font-medium text-gray-700">Crédits</span>
                   </div>
-                  <span className="text-2xl font-bold text-green-600">{user.credits}</span>
+                  <span className="text-2xl font-bold text-secondary">{user.credits}</span>
                 </div>
               </CardContent>
             </Card>
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                 <CardTitle className="text-lg">Actions rapides</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button asChild className="w-full bg-green-600 hover:bg-green-700">
+                <Button asChild className="w-full">
                   <Link href="/covoiturages">
                     <MapPin className="h-4 w-4 mr-2" />
                     Chercher un trajet
@@ -297,26 +297,26 @@ export default function ProfilePage() {
                     onClick={() => setActiveTab("bookings")}
                     className={`pb-3 px-2 font-medium transition relative ${
                       activeTab === "bookings"
-                        ? "text-green-600"
+                        ? "text-primary"
                         : "text-gray-600 hover:text-gray-900"
                     }`}
                   >
                     Mes réservations
                     {activeTab === "bookings" && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600" />
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
                     )}
                   </button>
                   <button
                     onClick={() => setActiveTab("carpools")}
                     className={`pb-3 px-2 font-medium transition relative ${
                       activeTab === "carpools"
-                        ? "text-green-600"
+                        ? "text-primary"
                         : "text-gray-600 hover:text-gray-900"
                     }`}
                   >
                     Mes trajets proposés
                     {activeTab === "carpools" && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600" />
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
                     )}
                   </button>
                 </div>
@@ -326,12 +326,12 @@ export default function ProfilePage() {
                   <div className="space-y-4">
                     {profileData.bookings.length > 0 ? (
                       profileData.bookings.map((booking: any) => (
-                        <Card key={booking.id} className="border-l-4 border-l-green-600">
+                        <Card key={booking.id} className="border-l-4 border-l-primary">
                           <CardContent className="pt-6">
                             <div className="flex items-start justify-between mb-4">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
-                                  <MapPin className="h-5 w-5 text-green-600" />
+                                  <MapPin className="h-5 w-5 text-primary" />
                                   <h3 className="font-semibold text-lg">
                                     {booking.carpool.departure} → {booking.carpool.destination}
                                   </h3>
@@ -359,7 +359,7 @@ export default function ProfilePage() {
                                 <span
                                   className={`px-3 py-1 rounded-full text-xs font-medium ${
                                     booking.status === "CONFIRMED"
-                                      ? "bg-green-100 text-green-700"
+                                      ? "bg-success/10 text-success"
                                       : booking.status === "CANCELLED"
                                       ? "bg-red-100 text-red-700"
                                       : "bg-gray-100 text-gray-700"
@@ -446,7 +446,7 @@ export default function ProfilePage() {
                                       : carpool.status === "IN_PROGRESS"
                                       ? "bg-yellow-100 text-yellow-700"
                                       : carpool.status === "COMPLETED"
-                                      ? "bg-green-100 text-green-700"
+                                      ? "bg-success/10 text-success"
                                       : "bg-gray-100 text-gray-700"
                                   }`}
                                 >
@@ -472,7 +472,6 @@ export default function ProfilePage() {
                                   <Button
                                     variant="default"
                                     size="sm"
-                                    className="bg-green-600 hover:bg-green-700"
                                     onClick={() => handleStartTrip(carpool.id)}
                                     disabled={actionLoading === carpool.id}
                                   >
