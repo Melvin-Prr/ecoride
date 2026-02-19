@@ -68,22 +68,22 @@ export default function RegisterPage() {
 
     setLoading(true);
 
-    trawait registerUser(formData.email, formData.pseudo, formData.password);
+    try {
+      await registerUser(formData.email, formData.pseudo, formData.password);
       router.push("/");
     } catch (error) {
-      setErrors({ general: error instanceof Error ? error.message 
-      setErrors({ general: "Une erreur est survenue. Veuillez réessayer." });
+      setErrors({ general: error instanceof Error ? error.message : "Une erreur est survenue. Veuillez réessayer." });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-100 py-12 px-4">
       <div className="container mx-auto max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="h-12 w-12 rounded-lg bg-green-600 flex items-center justify-center">
+          <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
             <Leaf className="h-8 w-8 text-white" />
           </div>
           <span className="text-3xl font-bold text-gray-900">EcoRide</span>
@@ -192,7 +192,7 @@ export default function RegisterPage() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700"
+                className="w-full"
                 size="lg"
                 disabled={loading}
               >
@@ -200,8 +200,8 @@ export default function RegisterPage() {
               </Button>
 
               {/* Welcome Credits Info */}
-              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                <p className="text-sm text-green-800 text-center">
+              <div className="bg-success/10 border border-success/30 rounded-lg p-3">
+                <p className="text-sm text-success text-center">
                   🎉 Recevez <strong>20 crédits</strong> offerts à l&apos;inscription !
                 </p>
               </div>
@@ -210,7 +210,7 @@ export default function RegisterPage() {
               <div className="text-center pt-4 border-t border-gray-200">
                 <p className="text-sm text-gray-600">
                   Vous avez déjà un compte ?{" "}
-                  <Link href="/login" className="text-green-600 hover:text-green-700 font-medium">
+                  <Link href="/login" className="text-primary hover:text-primary/80 font-medium">
                     Se connecter
                   </Link>
                 </p>
