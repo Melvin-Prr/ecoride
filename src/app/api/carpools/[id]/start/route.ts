@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
+import { errorResponse, successResponse } from "@/lib/api-response";
 import { sendTripStartedNotification } from "@/lib/email";
 import { createLog, createNotification } from "@/lib/logging";
 
@@ -13,13 +13,13 @@ export async function PUT(
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     const userId = decoded.userId;
@@ -38,17 +38,17 @@ export async function PUT(
     });
 
     if (!carpool) {
-      return apiError("Covoiturage introuvable", 404);
+      return errorResponse("Covoiturage introuvable", 404);
     }
 
     // Verify user is the driver
     if (carpool.driverId !== userId) {
-      return apiError("Seul le conducteur peut démarrer ce trajet", 403);
+      return errorResponse("Seul le conducteur peut démarrer ce trajet", 403);
     }
 
     // Verify status
     if (carpool.status !== "PENDING") {
-      return apiError(
+      return errorResponse(
         `Ce trajet est déjà ${carpool.status === "IN_PROGRESS" ? "en cours" : "terminé"}`,
         400
       );
@@ -105,12 +105,12 @@ export async function PUT(
       statusCode: 200,
     }).catch(console.error);
 
-    return apiSuccess({
+    return successResponse({
       carpool: updatedCarpool,
       message: "Trajet démarré avec succès",
     });
   } catch (error) {
     console.error("Start carpool error:", error);
-    return apiError("Erreur lors du démarrage du trajet", 500);
+    return errorResponse("Erreur lors du démarrage du trajet", 500);
   }
 }

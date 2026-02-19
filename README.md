@@ -65,8 +65,7 @@ EcoRide est une application web de covoiturage mettant l'accent sur l'écologie 
 
 ### Trello
 
-<!-- ⚠️ À COMPLÉTER -->
-**Lien Trello/Notion/Jira** : [À AJOUTER - Board public avec US1-US13]
+**Trello** : [À AJOUTER - Board public avec US1-US13]
 
 **Organisation du board** :
 - Colonnes : Backlog | À faire | En cours | Terminé | Merge main
@@ -75,16 +74,9 @@ EcoRide est une application web de covoiturage mettant l'accent sur l'écologie 
 
 ### Maquettes et design
 
-<!-- ⚠️ À COMPLÉTER -->
-**Wireframes** : [À AJOUTER - 3 pages desktop + 3 pages mobile]
-
-**Mockups haute-fidélité** : [À AJOUTER - Design final desktop + mobile]
-
-**Charte graphique** : Voir [docs/BRAND_GUIDELINES.md](docs/BRAND_GUIDELINES.md)
-- Palette de couleurs (vert écologique, tons neutres)
-- Typographie (Inter font)
-- Composants UI standardisés
-- Accessibilité WCAG 2.1 AA
+**Charte graphique** : 
+- [docs/BRAND_GUIDELINES.md](docs/BRAND_GUIDELINES.md)
+- [docs/GRAPHIC_GUIDELINES.pdf](docs/GRAPHIC_GUIDELINES.pdf)
 
 ---
 
@@ -394,8 +386,7 @@ git commit -m "docs: update README with deployment steps"
 
 ### Application déployée
 
-<!-- À COMPLÉTER après déploiement -->
-🌐 **URL de production** : [À AJOUTER - ex: https://ecoride.vercel.app]
+**URL de production** : https://ecoride.vercel.app
 
 ---
 

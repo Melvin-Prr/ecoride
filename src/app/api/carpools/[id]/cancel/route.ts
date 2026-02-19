@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
+import { errorResponse, successResponse } from "@/lib/api-response";
 import { sendTripCancelledNotification } from "@/lib/email";
 import { createLog, createNotification } from "@/lib/logging";
 
@@ -13,13 +13,13 @@ export async function DELETE(
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     const userId = decoded.userId;
@@ -37,17 +37,17 @@ export async function DELETE(
     });
 
     if (!carpool) {
-      return apiError("Covoiturage introuvable", 404);
+      return errorResponse("Covoiturage introuvable", 404);
     }
 
     // Verify user is the driver
     if (carpool.driverId !== userId) {
-      return apiError("Seul le conducteur peut annuler ce trajet", 403);
+      return errorResponse("Seul le conducteur peut annuler ce trajet", 403);
     }
 
     // Verify carpool hasn't started or completed
     if (carpool.status !== "PENDING") {
-      return apiError(
+      return errorResponse(
         `Impossible d'annuler un trajet ${
           carpool.status === "IN_PROGRESS" ? "en cours" : "terminé"
         }`,
@@ -141,12 +141,12 @@ export async function DELETE(
       statusCode: 200,
     }).catch(console.error);
 
-    return apiSuccess({
+    return successResponse({
       message: "Trajet annulé avec succès. Les passagers ont été remboursés.",
       refunds,
     });
   } catch (error) {
     console.error("Cancel carpool error:", error);
-    return apiError("Erreur lors de l'annulation du trajet", 500);
+    return errorResponse("Erreur lors de l'annulation du trajet", 500);
   }
 }

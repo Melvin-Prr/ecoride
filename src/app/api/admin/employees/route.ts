@@ -1,20 +1,20 @@
 import { NextRequest } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyToken, hashPassword, validatePasswordStrength } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
+import { errorResponse, successResponse } from "@/lib/api-response";
 
 export async function POST(req: NextRequest) {
   try {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     // Verify user is admin
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!admin || admin.role !== "ADMIN") {
-      return apiError("Accès refusé. Espace réservé aux administrateurs.", 403);
+      return errorResponse("Accès refusé. Espace réservé aux administrateurs.", 403);
     }
 
     // Get request body
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (Object.keys(errors).length > 0) {
-      return apiError("Erreurs de validation", 400, errors);
+      return errorResponse("Erreurs de validation", 400, errors);
     }
 
     // Check if email or pseudo already exists
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       if (existingUser.pseudo === pseudo) {
         errors.pseudo = "Ce pseudo est déjà utilisé";
       }
-      return apiError("Email ou pseudo déjà utilisé", 400, errors);
+      return errorResponse("Email ou pseudo déjà utilisé", 400, errors);
     }
 
     // Hash password
@@ -89,12 +89,12 @@ export async function POST(req: NextRequest) {
     // Remove password from response
     const { password: _, ...employeeWithoutPassword } = employee;
 
-    return apiSuccess({
+    return successResponse({
       employee: employeeWithoutPassword,
       message: "Compte employé créé avec succès",
     }, 201);
   } catch (error) {
     console.error("Create employee error:", error);
-    return apiError("Erreur lors de la création du compte employé", 500);
+    return errorResponse("Erreur lors de la création du compte employé", 500);
   }
 }

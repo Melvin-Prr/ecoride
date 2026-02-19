@@ -1,20 +1,20 @@
 import { NextRequest } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
+import { errorResponse, successResponse } from "@/lib/api-response";
 
 export async function GET(req: NextRequest) {
   try {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     // Verify user is admin
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (!admin || admin.role !== "ADMIN") {
-      return apiError("Accès refusé. Espace réservé aux administrateurs.", 403);
+      return errorResponse("Accès refusé. Espace réservé aux administrateurs.", 403);
     }
 
     // Get platform statistics
@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return apiSuccess({
+    return successResponse({
       stats: {
         totalUsers,
         totalCarpools,
@@ -110,6 +110,6 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error("Get analytics error:", error);
-    return apiError("Erreur lors de la récupération des statistiques", 500);
+    return errorResponse("Erreur lors de la récupération des statistiques", 500);
   }
 }
