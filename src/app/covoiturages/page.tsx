@@ -136,7 +136,7 @@ export default function CarpoolsPage() {
 
               <Button
                 type="submit"
-                className="w-full md:w-auto bg-green-600 hover:bg-green-700"
+                className="w-full md:w-auto"
                 disabled={loading}
               >
                 <Search className="h-5 w-5 mr-2" />
