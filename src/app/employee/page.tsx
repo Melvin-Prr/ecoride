@@ -261,7 +261,6 @@ export default function EmployeePage() {
                           <Button
                             variant="default"
                             size="sm"
-                            className="bg-green-600 hover:bg-green-700"
                             onClick={() => handleApprove(review.id)}
                             disabled={actionLoading === review.id}
                           >

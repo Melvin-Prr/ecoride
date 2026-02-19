@@ -157,28 +157,28 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
-        <p className="text-green-800 text-lg">Chargement...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-sky-100">
+        <p className="text-primary text-lg">Chargement...</p>
       </div>
     );
   }
 
   if (!analytics) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-sky-100">
         <p className="text-red-600">Erreur lors du chargement des données</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-100 py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-green-800 mb-2">
+          <h1 className="text-4xl font-bold text-primary mb-2">
             Espace Administrateur
           </h1>
-          <p className="text-green-700">
+          <p className="text-gray-700">
             Gestion de la plateforme EcoRide
           </p>
         </div>
@@ -189,7 +189,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Utilisateurs</p>
-                <p className="text-3xl font-bold text-green-800">
+                <p className="text-3xl font-bold text-primary">
                   {analytics.stats.totalUsers}
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Covoiturages</p>
-                <p className="text-3xl font-bold text-green-800">
+                <p className="text-3xl font-bold text-primary">
                   {analytics.stats.totalCarpools}
                 </p>
               </div>
@@ -213,7 +213,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Trajets Complétés</p>
-                <p className="text-3xl font-bold text-green-800">
+                <p className="text-3xl font-bold text-primary">
                   {analytics.stats.completedTrips}
                 </p>
               </div>
@@ -225,7 +225,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Trajets Actifs</p>
-                <p className="text-3xl font-bold text-green-800">
+                <p className="text-3xl font-bold text-primary">
                   {analytics.stats.activeTrips}
                 </p>
               </div>
@@ -237,7 +237,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Réservations</p>
-                <p className="text-3xl font-bold text-green-800">
+                <p className="text-3xl font-bold text-primary">
                   {analytics.stats.totalBookings}
                 </p>
               </div>
@@ -245,10 +245,10 @@ export default function AdminPage() {
             </div>
           </Card>
 
-          <Card className="p-6 bg-gradient-to-br from-green-600 to-green-700 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="p-6 bg-gradient-to-br from-secondary to-orange-600 shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-green-100 mb-1">Total Crédits Plateforme</p>
+                <p className="text-sm text-orange-100 mb-1">Total Crédits Plateforme</p>
                 <p className="text-3xl font-bold text-white">
                   {analytics.stats.totalCredits} €
                 </p>
@@ -262,7 +262,7 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Carpools per day chart */}
           <Card className="p-6 bg-white shadow-lg">
-            <h3 className="text-xl font-semibold text-green-800 mb-4">
+            <h3 className="text-xl font-semibold text-primary mb-4">
               Covoiturages par jour (30 derniers jours)
             </h3>
             <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -274,7 +274,7 @@ export default function AdminPage() {
                     </span>
                     <div className="flex-1 bg-gray-200 rounded-full h-6 relative overflow-hidden">
                       <div
-                        className="bg-green-600 h-full rounded-full flex items-center justify-end pr-2"
+                        className="bg-primary h-full rounded-full flex items-center justify-end pr-2"
                         style={{
                           width: `${Math.min(
                             (item.count /
@@ -303,7 +303,7 @@ export default function AdminPage() {
 
           {/* Credits per day chart */}
           <Card className="p-6 bg-white shadow-lg">
-            <h3 className="text-xl font-semibold text-green-800 mb-4">
+            <h3 className="text-xl font-semibold text-primary mb-4">
               Crédits gagnés par jour (30 derniers jours)
             </h3>
             <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -315,7 +315,7 @@ export default function AdminPage() {
                     </span>
                     <div className="flex-1 bg-gray-200 rounded-full h-6 relative overflow-hidden">
                       <div
-                        className="bg-green-600 h-full rounded-full flex items-center justify-end pr-2"
+                        className="bg-secondary h-full rounded-full flex items-center justify-end pr-2"
                         style={{
                           width: `${Math.min(
                             (item.total /
@@ -345,7 +345,7 @@ export default function AdminPage() {
 
         {/* Employee Creation Form */}
         <Card className="p-6 bg-white shadow-lg mb-8">
-          <h3 className="text-xl font-semibold text-green-800 mb-4">
+          <h3 className="text-xl font-semibold text-primary mb-4">
             Créer un compte employé
           </h3>
           <form onSubmit={handleCreateEmployee} className="space-y-4">
@@ -410,7 +410,6 @@ export default function AdminPage() {
 
             <Button
               type="submit"
-              className="bg-green-600 hover:bg-green-700"
               disabled={actionLoading === "create-employee"}
             >
               {actionLoading === "create-employee"
@@ -422,7 +421,7 @@ export default function AdminPage() {
 
         {/* Recent Users / User Management */}
         <Card className="p-6 bg-white shadow-lg">
-          <h3 className="text-xl font-semibold text-green-800 mb-4">
+          <h3 className="text-xl font-semibold text-primary mb-4">
             Gestion des utilisateurs (derniers inscrits)
           </h3>
           <div className="overflow-x-auto">
