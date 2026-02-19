@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Image
-                src="/docs/assets/logo.png"
+                src="/assets/logo.png"
                 alt="EcoRide"
                 width={120}
                 height={32}

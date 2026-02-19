@@ -394,7 +394,7 @@ git commit -m "docs: update README with deployment steps"
 
 ### Application déployée
 
-<!-- ⚠️ À COMPLÉTER après déploiement -->
+<!-- À COMPLÉTER après déploiement -->
 🌐 **URL de production** : [À AJOUTER - ex: https://ecoride-platform.vercel.app]
 
 ### Services recommandés (gratuits)

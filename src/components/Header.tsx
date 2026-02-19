@@ -30,7 +30,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
             <Image 
-              src="/docs/assets/logo.png" 
+              src="/assets/logo.png" 
               alt="EcoRide" 
               width={150} 
               height={40}

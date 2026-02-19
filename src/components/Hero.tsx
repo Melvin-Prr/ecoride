@@ -10,7 +10,7 @@ export default function Hero() {
       style={{
         backgroundImage: `
           linear-gradient(rgba(30, 58, 95, 0.75), rgba(15, 23, 42, 0.75)),
-          url('/docs/assets/background_main.jpg')
+          url('/assets/background_main.jpg')
         `,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',

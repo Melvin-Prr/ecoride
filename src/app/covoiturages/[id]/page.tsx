@@ -21,13 +21,56 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
+interface Review {
+  id: string;
+  author: string;
+  createdAt: string;
+  rating: number;
+  comment: string;
+}
+
+interface Driver {
+  pseudo: string;
+  rating: number;
+  totalTrips: number;
+}
+
+interface Vehicle {
+  brand: string;
+  model: string;
+  energyType: "ELECTRIC" | "HYBRID" | "GASOLINE" | "DIESEL";
+}
+
+interface Preferences {
+  smokingAllowed: boolean;
+  petsAllowed: boolean;
+  musicAllowed: boolean;
+  talkingAllowed: boolean;
+}
+
+interface CarpoolDetail {
+  id: string;
+  departure: string;
+  destination: string;
+  departureDate: string;
+  departureTime: string;
+  arrivalTime: string;
+  availableSeats: number;
+  pricePerSeat: number;
+  platformPrice: number;
+  vehicle: Vehicle;
+  preferences: Preferences;
+  reviews: Review[];
+  driver: Driver;
+}
+
 export default function CarpoolDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { user, token } = useAuth();
   const carpoolId = params.id as string;
   
-  const [carpool, setCarpool] = useState<any>(null);
+  const [carpool, setCarpool] = useState<CarpoolDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState(false);
 
@@ -57,12 +100,25 @@ export default function CarpoolDetailPage() {
   }, [carpoolId, router]);
 
   const isEco = carpool?.vehicle?.energyType === "ELECTRIC" || carpool?.vehicle?.energyType === "HYBRID";
-  const hasAvailableSeats = carpool?.availableSeats > 0;
+  const hasAvailableSeats = (carpool?.availableSeats ?? 0) > 0;
   const hasEnoughCredits = (user?.credits || 0) >= (carpool?.platformPrice || 0);
+
+  const getBookingButtonText = () => {
+    if (booking) return "Réservation...";
+    if (!user) return "Connectez-vous pour réserver";
+    if (!hasAvailableSeats) return "Plus de places disponibles";
+    if (!hasEnoughCredits) return "Crédits insuffisants";
+    return "Participer à ce trajet";
+  };
 
   const handleBooking = async () => {
     if (!user || !token) {
       router.push("/login");
+      return;
+    }
+
+    if (!carpool) {
+      alert("Erreur: covoiturage non trouvé.");
       return;
     }
 
@@ -324,7 +380,7 @@ export default function CarpoolDetailPage() {
                 <CardTitle>Avis sur le conducteur</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {carpool.reviews.map((review: any) => (
+                {carpool.reviews.map((review: Review) => (
                   <div
                     key={review.id}
                     className="pb-4 border-b border-gray-200 last:border-0 last:pb-0"
@@ -337,9 +393,9 @@ export default function CarpoolDetailPage() {
                         </p>
                       </div>
                       <div className="flex items-center gap-1">
-                        {[...Array(5)].map((_, i) => (
+                        {Array.from({ length: 5 }, (_, i) => (
                           <Star
-                            key={i}
+                            key={`star-${review.id}-${i}`}
                             className={`h-4 w-4 ${
                               i < review.rating
                                 ? "fill-yellow-400 text-yellow-400"
@@ -427,15 +483,7 @@ export default function CarpoolDetailPage() {
                   onClick={handleBooking}
                   disabled={booking || !hasAvailableSeats || (!user || !hasEnoughCredits)}
                 >
-                  {booking
-                    ? "Réservation..."
-                    : !user
-                    ? "Connectez-vous pour réserver"
-                    : !hasAvailableSeats
-                    ? "Plus de places disponibles"
-                    : !hasEnoughCredits
-                    ? "Crédits insuffisants"
-                    : "Participer à ce trajet"}
+                  {getBookingButtonText()}
                 </Button>
 
                 {user && !hasEnoughCredits && hasAvailableSeats && (
