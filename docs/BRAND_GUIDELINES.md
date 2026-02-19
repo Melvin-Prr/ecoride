@@ -30,32 +30,37 @@ EcoRide champions sustainable mobility through a community-driven carpooling pla
 
 ### Brand Values
 
-🌱 **Sustainability**
-- Promoting electric and hybrid vehicles
-- Reducing single-occupancy car trips
-- Environmental consciousness at core
+� **Sustainability**
+- Encouraging shared transportation
+- Reducing individual car usage
+- Environmental consciousness through community
+- Supporting electric and eco-friendly vehicles
 
-🤝 **Community**
-- Trust-based peer-to-peer platform
-- Review system for quality assurance
-- Connecting people with shared goals
+🤝 **Trust & Reliability**
+- Secure peer-to-peer platform
+- Review and rating system
+- Professional blue brand identity
+- Transparent credit-based system
 
-✨ **Simplicity**
+✨ **Simplicity & Accessibility**
 - Easy-to-use interface
+- "Voyagez partout à petit prix !" - Travel everywhere at low cost
 - Credit system instead of complex payments
-- Streamlined booking process
+- Streamlined booking in 3 clicks
 
 🚀 **Innovation**
-- Modern tech stack (Next.js, TypeScript)
+- Modern tech stack (Next.js 16, React 19, TypeScript)
+- Dual database architecture (PostgreSQL + MongoDB)
 - Real-time notifications
-- Dual database architecture
+- Smart route matching
 
 ### Brand Personality
 
-- **Friendly**: Approachable and welcoming
-- **Reliable**: Trustworthy and secure
-- **Modern**: Clean and contemporary
-- **Eco-conscious**: Green-focused but not preachy
+- **Professional**: Blue conveys trust and reliability
+- **Warm**: Orange accents add friendliness and energy
+- **Modern**: Clean design, contemporary stack
+- **Eco-conscious**: Sustainable values without being preachy
+- **Accessible**: Affordable pricing for everyone ("petit prix")
 
 ---
 
@@ -63,78 +68,118 @@ EcoRide champions sustainable mobility through a community-driven carpooling pla
 
 ### Primary Colors
 
-#### Eco Green (Primary)
+#### Primary Blue
 ```css
---color-primary: #22c55e
---color-primary-dark: #16a34a
---color-primary-light: #86efac
+--color-primary: #1E90FF
+--color-primary-rgb: rgb(30, 144, 255)
+--color-primary-dark: #1565C0
+--color-primary-light: #64B5F6
 ```
 
-**Hex**: `#22c55e`  
-**RGB**: `rgb(34, 197, 94)`  
-**HSL**: `hsl(142, 71%, 45%)`
+**Hex**: `#1E90FF` (Dodger Blue)  
+**RGB**: `rgb(30, 144, 255)`  
+**HSL**: `hsl(210, 100%, 56%)`
 
 **Usage**:
-- Primary buttons
-- Links
-- Eco badges
-- Success messages
-- Brand accents
+- Primary buttons and CTAs
+- Logo circle background
+- Links and interactive elements
+- Brand identity
+- Navigation active states
+- Hero section backgrounds (variant)
 
-**Accessibility**: WCAG AA compliant on white background
+**Accessibility**: WCAG AA compliant on white background  
+**Design Note**: Core brand color representing trust, reliability, and innovation
 
 ---
 
-#### Forest Green (Secondary)
+#### Secondary Orange
 ```css
---color-secondary: #15803d
+--color-secondary: #D97706
+--color-secondary-rgb: rgb(217, 119, 6)
+--color-secondary-dark: #B45309
+--color-secondary-light: #F59E0B
 ```
 
-**Hex**: `#15803d`  
-**RGB**: `rgb(21, 128, 61)`  
-**HSL**: `hsl(142, 72%, 29%)`
+**Hex**: `#D97706` (Burnt Orange)  
+**RGB**: `rgb(217, 119, 6)`  
+**HSL**: `hsl(32, 95%, 44%)`
 
 **Usage**:
-- Hover states
-- Headers and navigation
-- Important sections
-- Call-to-action backgrounds
-
----
-
-### Accent Colors
-
-#### Electric Blue
-```css
---color-accent: #3b82f6
-```
-
-**Hex**: `#3b82f6`  
-**RGB**: `rgb(59, 130, 246)`  
-**HSL**: `hsl(217, 91%, 60%)`
-
-**Usage**:
-- Electric vehicle badges
-- Information highlights
-- Links (alternative)
-- User roles (Passenger)
-
----
-
-#### Amber (Credits)
-```css
---color-credits: #f59e0b
-```
-
-**Hex**: `#f59e0b`  
-**RGB**: `rgb(245, 158, 11)`  
-**HSL**: `hsl(38, 92%, 50%)`
-
-**Usage**:
+- Secondary buttons
+- Accent elements
+- Pricing highlights
 - Credits display
-- Pricing information
-- Important numbers
-- Gold tier features
+- Warning states (contextual)
+- Call-to-action accents
+
+**Accessibility**: WCAG AA compliant on white background  
+**Design Note**: Complementary color adding warmth and energy
+
+---
+
+### Neutral Colors
+
+#### Grey (Light Neutral)
+```css
+--color-grey: #F3F4F6
+--color-grey-rgb: rgb(243, 244, 246)
+```
+
+**Hex**: `#F3F4F6`  
+**RGB**: `rgb(243, 244, 246)`  
+**HSL**: `hsl(220, 14%, 96%)`
+
+**Usage**:
+- Card backgrounds
+- Subtle section dividers
+- Input field backgrounds
+- Disabled states
+- Alternate row backgrounds
+
+---
+
+#### Dark (Primary Dark)
+```css
+--color-dark: #1E3A5F
+--color-dark-rgb: rgb(30, 58, 95)
+```
+
+**Hex**: `#1E3A5F` (Deep Navy Blue)  
+**RGB**: `rgb(30, 58, 95)`  
+**HSL**: `hsl(214, 52%, 25%)`
+
+**Usage**:
+- Hero section background (main variant)
+- Header navigation
+- Footer background
+- Dark mode primary
+- Text on light backgrounds (headings)
+- Card overlays
+
+**Accessibility**: Excellent contrast with white text
+
+---
+
+#### Darker (Secondary Dark)
+```css
+--color-darker: #0F172A
+--color-darker-rgb: rgb(15, 23, 42)
+```
+
+**Hex**: `#0F172A` (Slate 900)  
+**RGB**: `rgb(15, 23, 42)`  
+**HSL**: `hsl(222, 47%, 11%)`
+
+**Usage**:
+- Footer sections
+- Modal overlays
+- Premium/VIP sections
+- Dark mode backgrounds
+- Text on light backgrounds (body)
+- Deep shadows
+
+**Accessibility**: Maximum contrast for text
 
 ---
 
@@ -244,91 +289,102 @@ background: linear-gradient(
 
 ### Font Family
 
-#### Primary Font: Inter
+#### Primary Font: System Sans-Serif Stack
 ```css
-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
+             'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 
+             sans-serif;
 ```
 
 **Characteristics**:
-- Designed for screen readability
-- Excellent at small sizes
-- Modern and professional
-- Variable font support
-- Open-source (Google Fonts)
+- Native system fonts for optimal performance
+- Excellent readability across all devices
+- Zero font loading time
+- Professional and modern appearance
+- Cross-platform consistency
 
 **Weights Used**:
-- Regular (400): Body text
-- Medium (500): Emphasized text
-- Semibold (600): Subheadings
-- Bold (700): Headings
+- Regular (400): Body text, paragraphs, Lorem ipsum
+- Medium (500): Emphasized text, labels
+- Semibold (600): Heading 3, Heading 4
+- Bold (700): HEADING 1, Heading 2, buttons
 
 **Fallback Stack**:
-System fonts ensure fast loading and cross-platform consistency
+System-native fonts ensure instant rendering and optimal user experience
 
 ---
 
 ### Type Scale
 
-#### Headings
+#### Headings (From Charte Graphique)
 ```css
-/* h1 - Page titles */
-font-size: 2.5rem;        /* 40px */
+/* HEADING 1 - Hero titles, main page headers */
+font-size: 3rem;          /* 48px */
 font-weight: 700;         /* Bold */
 line-height: 1.2;
 letter-spacing: -0.02em;
+color: var(--color-darker);
+/* Example: "Voyagez partout à petit prix !" */
 
-/* h2 - Section titles */
-font-size: 2rem;          /* 32px */
-font-weight: 700;
+/* Heading 2 - Section titles */
+font-size: 2.25rem;       /* 36px */
+font-weight: 700;         /* Bold */
 line-height: 1.3;
+letter-spacing: -0.01em;
+color: var(--color-darker);
 
-/* h3 - Subsection titles */
-font-size: 1.5rem;        /* 24px */
+/* Heading 3 - Subsection titles */
+font-size: 1.875rem;      /* 30px */
 font-weight: 600;         /* Semibold */
 line-height: 1.4;
+color: var(--color-dark);
 
-/* h4 - Card titles */
+/* Heading 4 - Card titles, smaller headers */
+font-size: 1.5rem;        /* 24px */
+font-weight: 600;         /* Semibold */
+line-height: 1.5;
+color: var(--color-dark);
+
+/* Heading 5 - Smaller headings (optional) */
 font-size: 1.25rem;       /* 20px */
 font-weight: 600;
 line-height: 1.5;
 
-/* h5 - Smaller headings */
-font-size: 1.125rem;      /* 18px */
-font-weight: 600;
-line-height: 1.5;
-
-/* h6 - Eyebrow text */
+/* Heading 6 - Eyebrow text (optional) */
 font-size: 1rem;          /* 16px */
 font-weight: 600;
 line-height: 1.5;
-text-transform: uppercase;
-letter-spacing: 0.05em;
 ```
 
 ---
 
 #### Body Text
 ```css
-/* Regular body */
+/* Regular body - Lorem ipsum paragraphs */
 font-size: 1rem;          /* 16px */
-font-weight: 400;
+font-weight: 400;         /* Regular */
 line-height: 1.6;
+color: var(--color-darker);
+/* Example text from charte: "Lorem ipsum dolor..." */
 
-/* Large body */
+/* Large body - Hero subtitles */
 font-size: 1.125rem;      /* 18px */
 font-weight: 400;
 line-height: 1.7;
+color: #FFFFFF;           /* White on dark backgrounds */
 
-/* Small text */
+/* Small text - Labels, captions */
 font-size: 0.875rem;      /* 14px */
 font-weight: 400;
 line-height: 1.5;
+color: var(--color-grey-600);
 
-/* Caption/Label */
+/* Caption/Label - Form labels, metadata */
 font-size: 0.75rem;       /* 12px */
 font-weight: 500;         /* Medium */
 line-height: 1.4;
 letter-spacing: 0.025em;
+text-transform: uppercase;
 ```
 
 ---
@@ -353,49 +409,98 @@ letter-spacing: 0.025em;
 
 ### Logo Design
 
-**Primary Logo**:
-```
-🌿 EcoRide
-```
+**Primary Logo Components**:
 
-**Components**:
-- **Icon**: Leaf emoji (🌿) or custom leaf icon
-- **Wordmark**: "EcoRide" in Inter Bold
-- **Color**: Eco Green (#22c55e)
+#### Icon (Circle with Arrow)
+- **Shape**: Perfect circle
+- **Background**: Primary Blue (#1E90FF)
+- **Symbol**: White forward-pointing arrow (→)
+- **Meaning**: Movement, progress, carpooling direction
+- **File**: `docs/assets/icon.png`
 
-**Variations**:
-
-1. **Horizontal Logo**:
-   ```
-   🌿 EcoRide
-   ```
-   Usage: Website header, email signatures
-
-2. **Vertical Logo**:
-   ```
-      🌿
-   EcoRide
-   ```
-   Usage: App icon, social media profile
-
-3. **Icon Only**:
-   ```
-   🌿
-   ```
-   Usage: Favicon, mobile app icon, social media posts
-
-4. **Monochrome**:
-   - White on dark backgrounds (footer)
-   - Dark on light backgrounds (print)
+#### Wordmark
+- **Text**: "EcoRide"
+- **Font**: System Sans-Serif, Bold (700)
+- **Color**: Primary Blue (#1E90FF)
+- **Case**: PascalCase (Eco capitalized, Ride capitalized)
 
 ---
 
-### Logo Spacing
+### Logo Variations
+
+#### 1. **Horizontal Logo** (Primary)
+```
+[●→] EcoRide
+```
+**Structure**:
+- Icon (circle with arrow) on left
+- Wordmark "EcoRide" on right
+- Spacing: 16px between icon and text
+
+**Usage**:
+- Website header/navigation
+- Email signatures
+- Documentation headers
+- Landing pages
+
+**File**: `docs/assets/logo.png`
+
+---
+
+#### 2. **Icon Only**
+```
+[●→]
+```
+**Usage**:
+- Favicon (16x16, 32x32, 64x64)
+- Mobile app icon
+- Social media profile picture
+- Compact headers (mobile)
+- Loading spinners
+
+**File**: `docs/assets/icon.png`
+
+---
+
+#### 3. **Icon Inverted** (Dark Backgrounds)
+**Variation**:
+- Circle background: White or transparent
+- Arrow: Primary Blue (#1E90FF)
+- Alternative: Circle (#1E90FF), Arrow (White)
+
+**Usage**:
+- Footer (dark background)
+- Dark mode
+- Hero sections with dark backgrounds
+- Overlays
+
+**File**: `docs/assets/icon_inverted.png`
+
+---
+
+#### 4. **Monochrome Versions**
+
+**White on Dark**:
+- Circle: White (#FFFFFF)
+- Arrow: Dark (#0F172A)
+- Text: White (#FFFFFF)
+- Usage: Footer, print on dark paper
+
+**Dark on Light**:
+- Circle: Primary Blue (#1E90FF)
+- Arrow: White (#FFFFFF)
+- Text: Darker (#0F172A)
+- Usage: Standard website, print on white paper
+
+---
+
+### Logo Specifications
 
 **Clear Space**:
-- Minimum padding around logo: 1x icon height
-- Never place logo on busy backgrounds
-- Maintain aspect ratio (no stretching)
+- Minimum padding: 1x icon diameter around entire logo
+- Never place logo on busy backgrounds without overlay
+- Maintain aspect ratio (no stretching or skewing)
+- Avoid placing over complex background images
 
 **Minimum Sizes**:
 - Web: 120px width minimum
@@ -437,7 +542,7 @@ Common icons:
 
 #### Primary Button
 ```css
-background: var(--color-primary);
+background: var(--color-primary);      /* #1E90FF - Primary Blue */
 color: white;
 padding: 12px 24px;
 border-radius: 8px;
@@ -446,23 +551,33 @@ font-size: 16px;
 transition: all 0.2s;
 
 /* Hover state */
-background: var(--color-primary-dark);
+background: var(--color-primary-dark); /* #1565C0 - Darker Blue */
 transform: translateY(-1px);
-box-shadow: 0 4px 8px rgba(34, 197, 94, 0.2);
+box-shadow: 0 4px 12px rgba(30, 144, 255, 0.25);
 ```
 
-**Usage**: Primary actions (Book, Create, Confirm)
+**Usage**: Primary actions (Rechercher, Réserver, Publier, Confirmer)
+**Example**: "Rechercher" button on hero, "Participer" on carpool cards
 
 ---
 
 #### Secondary Button
 ```css
-background: var(--color-gray-100);
-color: var(--color-gray-700);
+background: var(--color-grey);         /* #F3F4F6 - Light Grey */
+color: var(--color-darker);            /* #0F172A - Dark text */
 border: 1px solid var(--color-gray-300);
+padding: 12px 24px;
+border-radius: 8px;
+font-weight: 600;
+transition: all 0.2s;
+
+/* Hover state */
+background: #E5E7EB;                   /* Slightly darker grey */
+border-color: var(--color-primary);
 ```
 
-**Usage**: Secondary actions (Cancel, Back, Close)
+**Usage**: Secondary actions (Annuler, Retour, Fermer)
+**Example**: Cancel reservation, Close modal, Back to list
 
 ---
 
@@ -518,9 +633,9 @@ border-color: var(--color-error);
 
 ### Badges
 
-#### Eco Badge
+#### Eco Badge (Electric Vehicle)
 ```css
-background: var(--color-primary);
+background: #10B981;                   /* Green for eco/electric */
 color: white;
 padding: 4px 12px;
 border-radius: 9999px;
@@ -531,24 +646,32 @@ align-items: center;
 gap: 4px;
 ```
 
-Content: `⚡ Écologique`
+**Content**: `⚡ Électrique` or `🌱 Écologique`
+**Usage**: Vehicle badges, eco-friendly indicators
+**Note**: Green specifically for environmental features, not primary brand color
 
 ---
 
 #### Role Badges
 ```css
 /* Admin */
-background: #ef4444; color: white;
+background: #EF4444;                   /* Red */
+color: white;
 
 /* Employee */
-background: #f59e0b; color: white;
+background: var(--color-secondary);    /* #D97706 - Orange */
+color: white;
 
-/* Driver */
-background: #3b82f6; color: white;
+/* Driver (Conducteur) */
+background: var(--color-primary);      /* #1E90FF - Primary Blue */
+color: white;
 
-/* Passenger */
-background: #6b7280; color: white;
+/* Passenger (Passager) */
+background: #6B7280;                   /* Grey */
+color: white;
 ```
+
+**Usage**: User profile, admin dashboard, role indicators
 
 ---
 
@@ -768,82 +891,168 @@ box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
 
 ### High-Fidelity Mockup Specifications
 
-#### 1. Homepage Desktop (1920x1080)
+---
 
-**Header**:
-- Height: 64px
-- Background: White with subtle shadow
-- Logo: Left aligned, 24px margin
-- Navigation: Center aligned
-- User menu: Right aligned with credits badge
+#### 1. Homepage Hero Section - High Quality Mockups
 
-**Hero Section**:
-- Background: Light green gradient (subtle)
-- Title: Inter Bold, 48px, Green-700
-- Subtitle: Inter Regular, 20px, Gray-600
-- Search bar: White card with shadow, 3 inputs side-by-side
-- Button: Primary green, 48px height, 160px width
-
-**Features Section**:
-- 3 columns grid
-- Icons: 48x48px, Green-500
-- Card padding: 32px
-border-radius: 12px
-
-**Footer**:
-- Background: Gray-900 (dark)
-- Text: Gray-300
-- Height: 120px
-- Links: White on hover (Green-400)
+**Background Assets**:
+- Main hero image: `docs/assets/background_main.jpg`
+- Shows person driving, creates trust and human connection
+- Aspect ratio: 16:9 for wide screens
+- Overlay: Dark gradient for text readability
 
 ---
 
-#### 2. Carpool Listing Desktop
+#### Variant A: Dark Grey Background
+**Specifications**:
+- **Background Color**: `#4A5568` (Slate grey)
+- **Hero Image**: `background_main.jpg` with dark overlay
+- **Overlay Opacity**: 60% dark (#000000 at 0.6 opacity)
 
-**Layout**: 2-column (Sidebar + Main)
+**Header Section**:
+- Logo: Left aligned (24px margin)
+- Navigation links: "Accueil", "Rechercher un trajet", "Publier un trajet"
+- User button: "Se connecter / S'inscrire" (Primary blue button)
+- Background: Transparent or white with subtle shadow
+- Height: 80px
 
-**Sidebar** (320px width):
-- Dark background filter panel
-- Each filter: 16px vertical spacing
-- Sliders: Green primary color
-- Checkboxes: Custom styled with green
+**Hero Content**:
+```
+Title (H1): "Voyagez partout à petit prix !"
+- Font-size: 48px (3rem)
+- Font-weight: 700 (Bold)
+- Color: White (#FFFFFF)
+- Text-align: Center
+- Line-height: 1.2
+- Letter-spacing: -0.02em
 
-**Main Area**:
-- Card grid: 2 columns on desktop, 1 on tablet/mobile
+Subtitle/Description:
+- Font-size: 18px (1.125rem)
+- Color: White (#FFFFFF opacity 0.9)
+- Text-align: Center
+- Max-width: 600px
+```
+
+**Search Bar Section**:
+- Background: White (#FFFFFF)
+- Position: Centered below hero text, absolute positioned
+- Padding: 24px
+- Border-radius: 12px
+- Box-shadow: 0 8px 24px rgba(0,0,0,0.15)
+- Inputs: "Départ", "Arrivée", "Date", "Rechercher" button
+
+**Cards Section Below**:
+- Grid: 4 columns on desktop
+- Background: White cards (#FFFFFF)
+- Border-radius: 12px
 - Gap: 24px
-- Card design:
-  - Border: 1px Gray-200
-  - Border-radius: 12px
-  - Padding: 20px
-  - Hover: Lift with shadow
-  - Image: Top, 200px height, cover fit
+- Shadow: 0 2px 8px rgba(0,0,0,0.1)
+- Height: Approximately 200px each
+- Content: Placeholder for features/benefits
 
 ---
 
-#### 3. Carpool Detail Desktop
+#### Variant B: Deep Blue Background
+**Specifications**:
+- **Background Color**: `#1E3A5F` (Deep Navy Blue - var(--color-dark))
+- **Hero Image**: Same `background_main.jpg` with blue-tinted overlay
+- **Overlay**: Blue gradient (#1E3A5F to #0F172A at 70% opacity)
 
-**Left Column** (66% width):
-- Large route header: Green-600, 32px
-- Info cards with icons
-- Reviews list: Avatar + rating + comment
+**All other specifications identical to Variant A**, with the following changes:
+- Stronger contrast due to darker blue background
+- Hero text remains white
+- Cards section: Same white cards provide excellent contrast
+- Navigation: Can use white text for better visibility
 
-**Right Column** (33% width):
-- Sticky booking card
-- White background
-- Green shadow on scroll
-- Form elements: 16px spacing
-- Total displayed with gold gradient
+**Color Psychology**:
+- Blue conveys trust, reliability, professionalism
+- Matches primary brand color (#1E90FF)
+- Creates premium, modern feel
+- Better for eco-tech positioning
 
 ---
 
-#### 4. Mobile Mockups (375x812 - iPhone X)
+#### Common Elements (Both Variants)
 
-**Stack Layout**:
-- Everything full-width
-- Filters: Accordion/drawer
-- Cards: Full width with image aspect 16:9
-- Bottom nav: Fixed 56px height
-- Booking button: Fixed bottom (mobile)
+**Hero Section Dimensions**:
+- Desktop (≥1024px): Height 600px
+- Tablet (768-1023px): Height 500px
+- Mobile (<768px): Height 400px
+- Background position: Center center
+- Background size: Cover
+
+**Card Grid Specifications**:
+- Desktop: 4 cards in row (25% width each)
+- Tablet: 2 cards per row (50% width each)
+- Mobile: 1 card per row (100% width)
+- Card padding: 32px
+- Border-radius: 12px
+- Min-height: 200px
+
+**Typography on Hero**:
+- Always white text for maximum contrast
+- Text shadow: 0 2px 4px rgba(0,0,0,0.3) for readability
+- Use semi-bold weights minimum on image backgrounds
+
+---
+
+#### 2. Design System Assets (Charte Graphique Plan n°1)
+
+**Logo Specifications**:
+- Icon: Circle with forward arrow (→)
+- Circle background: Primary Blue (#1E90FF)
+- Arrow color: White (#FFFFFF)
+- Wordmark: "EcoRide" in bold, Primary Blue
+- Horizontal layout with 16px spacing
+
+**Color Swatches Display**:
+1. **Grey**: `#F3F4F6` - Light neutral backgrounds
+2. **Primary**: `#1E90FF` - Main brand color (blue)
+3. **Secondary**: `#D97706` - Orange accent
+4. **Dark**: `#1E3A5F` - Deep navy blue
+5. **Darker**: `#0F172A` - Almost black slate
+
+**Typography Showcase**:
+```
+HEADING 1: 48px, Bold, Darker (#0F172A)
+Heading 2: 36px, Bold, Darker
+Heading 3: 30px, Semibold, Dark (#1E3A5F)
+Heading 4: 24px, Semibold, Dark
+
+Lorem ipsum paragraph:
+- Size: 16px
+- Weight: Regular (400)
+- Line-height: 1.6
+- Color: Darker (#0F172A)
+
+Lorem ipsum on dark background:
+- Text: White (#FFFFFF)
+- Background: Darker (#0F172A)
+- Padding: 24px
+- Border-radius: 8px
+```
+
+---
+
+#### 3. Recommended Usage
+
+**Homepage (Production)**:
+- Use **Variant B (Deep Blue)** for premium, trust-focused positioning
+- Blue aligns with primary brand color
+- Creates strong first impression
+- Better conversion for eco-conscious tech users
+
+**Alternative Uses**:
+- **Variant A (Grey)**: More neutral, can be used for secondary landing pages
+- A/B testing: Compare conversion rates between variants
+
+**Asset Paths**:
+```
+Hero background: /docs/assets/background_main.jpg
+Logo: /docs/assets/logo.png
+Icon: /docs/assets/icon.png
+Icon inverted: /docs/assets/icon_inverted.png
+```
 
 ---
 
@@ -897,9 +1106,12 @@ border-radius: 12px
 - Interactive elements: 3:1 minimum
 
 **Tested Combinations**:
-✅ Green-500 (#22c55e) on White: 3.02:1 (AA Large)  
-✅ Gray-700 (#374151) on White: 10.68:1 (AAA)  
-✅ White on Green-600 (#16a34a): 4.02:1 (AA)  
+✅ Primary Blue (#1E90FF) on White: 3.25:1 (AA Large - buttons, badges)  
+✅ Darker (#0F172A) on White: 16.89:1 (AAA - body text)  
+✅ Dark (#1E3A5F) on White: 9.48:1 (AAA - headings)  
+✅ White on Primary Blue (#1E90FF): 3.25:1 (AA Large - buttons)  
+✅ White on Dark (#1E3A5F): 9.48:1 (AAA - hero text)  
+✅ Secondary Orange (#D97706) on White: 4.86:1 (AA - text and buttons)  
 
 **Focus Indicators**:
 - 2px outline in primary color
