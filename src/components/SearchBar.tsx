@@ -32,7 +32,7 @@ export default function SearchBar() {
   return (
     <section id="search" className="py-12 px-4 bg-white">
       <div className="container mx-auto max-w-4xl">
-        <Card className="shadow-xl border-2 border-green-100">
+        <Card className="shadow-xl border-2 border-blue-100">
           <CardContent className="pt-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
               Rechercher un covoiturage
@@ -102,7 +102,7 @@ export default function SearchBar() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-green-600 hover:bg-green-700"
+                className="w-full"
               >
                 <Search className="mr-2 h-5 w-5" />
                 Rechercher

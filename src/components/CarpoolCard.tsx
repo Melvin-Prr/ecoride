@@ -46,7 +46,7 @@ export default function CarpoolCard({
         {/* Route Info */}
         <div className="mb-4">
           <div className="flex items-start gap-3">
-            <MapPin className="h-5 w-5 text-green-600 mt-1 shrink-0" />
+            <MapPin className="h-5 w-5 text-primary mt-1 shrink-0" />
             <div className="flex-1">
               <p className="font-semibold text-gray-900">{departure}</p>
               <div className="h-8 border-l-2 border-gray-300 ml-2"></div>
@@ -70,8 +70,8 @@ export default function CarpoolCard({
         {/* Driver & Vehicle Info */}
         <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-              <span className="text-green-600 font-semibold">
+            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <span className="text-primary font-semibold">
                 {driver.pseudo.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -87,7 +87,7 @@ export default function CarpoolCard({
           </div>
 
           {isEco && (
-            <div className="flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full">
+            <div className="flex items-center gap-1 bg-success/10 text-success px-3 py-1 rounded-full">
               <Leaf className="h-4 w-4" />
               <span className="text-xs font-medium">Éco</span>
             </div>
@@ -104,15 +104,15 @@ export default function CarpoolCard({
           </div>
 
           <div className="flex items-center gap-1">
-            <Euro className="h-5 w-5 text-green-600" />
-            <span className="text-2xl font-bold text-green-600">{platformPrice}</span>
+            <Euro className="h-5 w-5 text-secondary" />
+            <span className="text-2xl font-bold text-secondary">{platformPrice}</span>
             <span className="text-sm text-gray-500">crédits</span>
           </div>
         </div>
       </CardContent>
 
       <CardFooter className="bg-gray-50 border-t border-gray-200">
-        <Button asChild className="w-full bg-green-600 hover:bg-green-700">
+        <Button asChild className="w-full">
           <Link href={`/covoiturages/${id}`}>Voir les détails</Link>
         </Button>
       </CardFooter>
