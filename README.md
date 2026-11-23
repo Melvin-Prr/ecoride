@@ -72,12 +72,6 @@ EcoRide est une application web de covoiturage mettant l'accent sur l'écologie 
 - Cartes : 13 User Stories + fonctionnalités bonus (emails, MongoDB)
 - Labels : Frontend, Backend, Documentation, Sprint 1-4
 
-### Maquettes et design
-
-**Charte graphique** : 
-- [docs/BRAND_GUIDELINES.md](docs/BRAND_GUIDELINES.md)
-- [docs/GRAPHIC_GUIDELINES.pdf](docs/GRAPHIC_GUIDELINES.pdf)
-
 ---
 
 ## Installation et déploiement local
@@ -221,13 +215,6 @@ npx prisma migrate   # Gère les migrations de base de données
 - `ReviewStatus` : PENDING, APPROVED, REJECTED
 - `EnergyType` : GASOLINE, DIESEL, ELECTRIC, HYBRID
 
-Documentation complète : [docs/DATABASE_DOCUMENTATION.md](docs/DATABASE_DOCUMENTATION.md)
-- MCD (Modèle Conceptuel de Données)
-- ERD (Entity Relationship Diagram)
-- Data dictionary complet
-- Transactions ACID
-- Index et optimisations
-
 ---
 
 ## Comptes de test
@@ -272,78 +259,6 @@ Des comptes de test sont disponibles après l'exécution du seed (tous les mots 
 - CSRF tokens (à implémenter selon besoins)
 - Rate limiting (à implémenter selon besoins)
 - Variables d'environnement sécurisées (.env jamais committé)
-
----
-
-## Documentation complète
-
-Ce projet contient une documentation exhaustive (450+ pages) couvrant tous les aspects :
-
-### Documentation technique
-1. [**Database Documentation**](docs/DATABASE_DOCUMENTATION.md) (40+ pages)
-   - Architecture hybride PostgreSQL + MongoDB
-   - MCD, ERD, data dictionary
-   - Transactions, index, sécurité
-
-2. [**UML Diagrams**](docs/UML_DIAGRAMS.md) (45+ pages)
-   - Use case diagrams (5 acteurs, 13+ use cases)
-   - Sequence diagrams (booking, trip, review, auth)
-   - Class diagram complet
-   - State machines (carpool, booking, review, user auth)
-
-3. [**Technical Documentation**](docs/TECHNICAL_DOCUMENTATION.md) (75+ pages)
-   - Stack technique avec justifications
-   - Architecture système (4 layers)
-   - Documentation API complète (35+ endpoints)
-   - Sécurité détaillée
-   - Stratégie de test
-
-### Documentation utilisateur
-4. [**User Manual**](docs/USER_MANUAL.md) (60+ pages)
-   - Guide de démarrage
-   - Workflows pour les 4 rôles
-   - Instructions pas à pas
-   - Système de crédits
-   - FAQ (15+ questions)
-   - Comptes de test
-
-### Documentation design
-5. [**Brand Guidelines**](docs/BRAND_GUIDELINES.md) (50+ pages)
-   - Identité de marque
-   - Palette de couleurs complète
-   - Système typographique
-   - Spécifications des composants UI
-   - Wireframes (desktop + mobile)
-   - Mockups haute-fidélité
-   - Design responsive (4 breakpoints)
-   - Accessibilité WCAG 2.1 AA
-
-### Guides de déploiement et livraison
-6. [**Deployment Guide**](docs/DEPLOYMENT_GUIDE.md) (50+ pages)
-   - Déploiement Vercel étape par étape
-   - Configuration Supabase + MongoDB Atlas
-   - Variables d'environnement
-   - Vérifications post-déploiement
-   - Troubleshooting
-   - Optimisations performance
-   - Checklist sécurité
-
-7. [**Kanban Setup Guide**](docs/KANBAN_SETUP_GUIDE.md) (60+ pages)
-   - Création board Trello complet
-   - Toutes les US comme cartes
-   - Critères d'acceptation
-   - Labels et checklists
-   - Partage public
-   - Alternatives (Notion, GitHub Projects)
-
-8. [**Final Deliverable Template**](docs/FINAL_DELIVERABLE_TEMPLATE.md) (80+ pages)
-   - Template de soumission DWWM
-   - Toutes les sections pré-remplies
-   - Justifications techniques
-   - Documentation sécurité
-   - Validation des compétences (AT1 & AT2)
-   - Métriques et volumétrie
-   - Checklist pré-soumission
 
 ---
 
