@@ -351,7 +351,7 @@ export default function ProfilePage() {
                                   </div>
                                   <div className="flex items-center gap-2">
                                     <Coins className="h-4 w-4" />
-                                    {booking.seatsBooked} place{booking.seatsBooked > 1 ? "s" : ""} - {booking.totalPrice} crédits
+                                    {booking.seats} place{booking.seats > 1 ? "s" : ""} - {booking.seats * booking.carpool.platformPrice} crédits
                                   </div>
                                 </div>
                               </div>

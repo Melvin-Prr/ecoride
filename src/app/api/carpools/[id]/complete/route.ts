@@ -59,11 +59,12 @@ where: { id: carpoolId },
     // Calculate total seats booked for completed trip
     const confirmedBookings = carpool.bookings;
     const totalSeatsBooked = confirmedBookings.reduce(
-      (sum: number, booking: any) => sum + booking.seatsBooked,
+      (sum: number, booking: { seats: number }) => sum + booking.seats,
       0
     );
 
-    // Calculate credits to award driver (price per seat * total seats)
+    // Driver earns the price they set per seat; the platform keeps the
+    // difference with platformPrice (2 credits per seat).
     const creditsToAward = carpool.pricePerSeat * totalSeatsBooked;
 
     // Transaction: Mark trip as completed and credit driver
