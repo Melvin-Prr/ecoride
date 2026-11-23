@@ -304,7 +304,7 @@ export default function AdminPage() {
           {/* Credits per day chart */}
           <Card className="p-6 bg-white shadow-lg">
             <h3 className="text-xl font-semibold text-primary mb-4">
-              Crédits gagnés par jour (30 derniers jours)
+              Crédits gagnés par la plateforme par jour (30 derniers jours)
             </h3>
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {analytics.charts.creditsPerDay.length > 0 ? (
@@ -328,7 +328,7 @@ export default function AdminPage() {
                         }}
                       >
                         <span className="text-white text-xs font-semibold">
-                          {item.total} €
+                          {item.total} crédits
                         </span>
                       </div>
                     </div>
