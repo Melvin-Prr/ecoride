@@ -5,7 +5,7 @@ import { errorResponse, successResponse } from "@/lib/api-response";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -29,7 +29,7 @@ export async function PUT(
       return errorResponse("Accès refusé. Espace réservé aux administrateurs.", 403);
     }
 
-    const userId = params.id;
+    const userId = (await params).id;
     const body = await req.json();
     const { suspended } = body;
 

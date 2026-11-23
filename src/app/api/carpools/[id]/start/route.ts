@@ -7,7 +7,7 @@ import { createLog, createNotification } from "@/lib/logging";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -23,7 +23,7 @@ export async function PUT(
     }
 
     const userId = decoded.userId;
-    const carpoolId = params.id;
+    const carpoolId = (await params).id;
 
     // Find carpool
     const carpool = await prisma.carpool.findUnique({

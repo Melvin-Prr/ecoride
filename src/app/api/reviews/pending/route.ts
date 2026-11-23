@@ -32,26 +32,18 @@ export async function GET(req: NextRequest) {
         status: "PENDING",
       },
       include: {
-        reviewer: {
+        author: {
           select: {
             id: true,
             pseudo: true,
             email: true,
           },
         },
-        reviewed: {
+        recipient: {
           select: {
             id: true,
             pseudo: true,
             email: true,
-          },
-        },
-        carpool: {
-          select: {
-            id: true,
-            departure: true,
-            destination: true,
-            departureDate: true,
           },
         },
       },
@@ -61,7 +53,11 @@ export async function GET(req: NextRequest) {
     });
 
     return successResponse({
-      reviews: pendingReviews,
+      reviews: pendingReviews.map(({ author, recipient, ...review }) => ({
+        ...review,
+        reviewer: author,
+        reviewed: recipient,
+      })),
       count: pendingReviews.length,
     });
   } catch (error) {

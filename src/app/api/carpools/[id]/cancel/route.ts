@@ -7,7 +7,7 @@ import { createLog, createNotification } from "@/lib/logging";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -23,7 +23,7 @@ export async function DELETE(
     }
 
     const userId = decoded.userId;
-    const carpoolId = params.id;
+    const carpoolId = (await params).id;
 
     // Find carpool with bookings
     const carpool = await prisma.carpool.findUnique({
@@ -71,7 +71,7 @@ export async function DELETE(
           where: { id: booking.passengerId },
           data: {
             credits: {
-              increment: booking.totalPrice,
+              increment: carpool.platformPrice * booking.seats,
             },
           },
         });
@@ -79,7 +79,7 @@ export async function DELETE(
         refundResults.push({
           passengerId: booking.passengerId,
           passengerEmail: booking.passenger.email,
-          refundedCredits: booking.totalPrice,
+          refundedCredits: carpool.platformPrice * booking.seats,
         });
       }
 

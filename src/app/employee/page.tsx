@@ -31,7 +31,7 @@ interface PendingReview {
     pseudo: string;
     email: string;
   };
-  carpool: {
+  carpool?: {
     id: string;
     departure: string;
     destination: string;
@@ -240,6 +240,7 @@ export default function EmployeePage() {
                               </span>
                             </div>
                           </div>
+                          {review.carpool && (
                           <div className="space-y-2">
                             <div className="flex items-center gap-2 text-gray-600">
                               <MapPin className="h-4 w-4" />
@@ -254,6 +255,7 @@ export default function EmployeePage() {
                               </span>
                             </div>
                           </div>
+                          )}
                         </div>
 
                         {/* Actions */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import CarpoolCard from "@/components/CarpoolCard";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, Search, AlertCircle } from "lucide-react";
 
-export default function CarpoolsPage() {
+function CarpoolsContent() {
   const searchParams = useSearchParams();
   const [departure, setDeparture] = useState(searchParams.get("from") || "");
   const [destination, setDestination] = useState(searchParams.get("to") || "");
@@ -204,5 +204,13 @@ export default function CarpoolsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CarpoolsPage() {
+  return (
+    <Suspense fallback={null}>
+      <CarpoolsContent />
+    </Suspense>
   );
 }

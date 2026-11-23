@@ -7,7 +7,7 @@ import { createLog, createNotification } from "@/lib/logging";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -23,7 +23,7 @@ export async function PUT(
     }
 
     const userId = decoded.userId;
-    const carpoolId = params.id;
+    const carpoolId = (await params).id;
 
     // Find carpool
     const carpool = await prisma.carpool.findUnique({
@@ -115,7 +115,7 @@ where: { id: carpoolId },
         userId: booking.passengerId,
         type: "trip_complete",
         title: "Trajet terminé",
-        message: `Le trajet ${carpool.departure} → ${carpool.destination} est terminé. Laissez un avis !",
+        message: `Le trajet ${carpool.departure} → ${carpool.destination} est terminé. Laissez un avis !`,
         data: { carpoolId: carpool.id, bookingId: booking.id },
       }).catch(console.error);
     });
@@ -143,7 +143,7 @@ where: { id: carpoolId },
 
     return successResponse({
       ...result,
-      message: `Trajet terminé avec succès. Vous avez gagné ${creditsToAward} crédits.`,
+      message: `Trajet terminé avec succès. Vous avez gagné ${result.creditsToAward} crédits.`,
     });
   } catch (error) {
     console.error("Complete carpool error:", error);

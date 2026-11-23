@@ -10,11 +10,16 @@ export function successResponse<T>(data: T, status: number = 200) {
   );
 }
 
-export function errorResponse(message: string, status: number = 400) {
+export function errorResponse(
+  message: string,
+  status: number = 400,
+  errors?: Record<string, string>
+) {
   return NextResponse.json(
     {
       success: false,
       error: message,
+      ...(errors && { errors }),
     },
     { status }
   );

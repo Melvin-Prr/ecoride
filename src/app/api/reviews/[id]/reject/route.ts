@@ -5,7 +5,7 @@ import { errorResponse, successResponse } from "@/lib/api-response";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
@@ -29,7 +29,7 @@ export async function PUT(
       return errorResponse("Accès refusé. Espace réservé aux employés.", 403);
     }
 
-    const reviewId = params.id;
+    const reviewId = (await params).id;
 
     // Check if review exists and is pending
     const review = await prisma.review.findUnique({
@@ -49,14 +49,12 @@ export async function PUT(
       where: { id: reviewId },
       data: {
         status: "REJECTED",
-        moderatedBy: decoded.userId,
-        moderatedAt: new Date(),
       },
       include: {
-        reviewer: {
+        author: {
           select: { pseudo: true, email: true },
         },
-        reviewed: {
+        recipient: {
           select: { pseudo: true, email: true },
         },
       },
