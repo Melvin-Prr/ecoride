@@ -47,28 +47,33 @@ export async function GET(req: NextRequest) {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
+    // Table and column names follow the @@map / field names in schema.prisma
     const carpoolsByDay = await prisma.$queryRaw<
       Array<{ date: Date; count: bigint }>
     >`
-      SELECT 
+      SELECT
         DATE("departureDate") as date,
         COUNT(*)::bigint as count
-      FROM "Carpool"
+      FROM "carpools"
       WHERE "departureDate" >= ${thirtyDaysAgo}
       GROUP BY DATE("departureDate")
       ORDER BY date ASC
     `;
 
-    // Get credits earned per day (completed trips)
+    // Credits earned by the platform per day: on each completed trip the
+    // platform keeps (platformPrice - pricePerSeat) for every confirmed seat.
     const creditsPerDay = await prisma.$queryRaw<
       Array<{ date: Date; total: number }>
     >`
-      SELECT 
-        DATE("departureDate") as date,
-        SUM("pricePerSeat" * ("totalSeats" - "availableSeats"))::integer as total
-      FROM "Carpool"
-      WHERE "status" = 'COMPLETED' AND "departureDate" >= ${thirtyDaysAgo}
-      GROUP BY DATE("departureDate")
+      SELECT
+        DATE(c."departureDate") as date,
+        SUM((c."platformPrice" - c."pricePerSeat") * b."seats")::integer as total
+      FROM "carpools" c
+      JOIN "bookings" b ON b."carpoolId" = c."id"
+      WHERE c."status" = 'COMPLETED'
+        AND b."status" = 'CONFIRMED'
+        AND c."departureDate" >= ${thirtyDaysAgo}
+      GROUP BY DATE(c."departureDate")
       ORDER BY date ASC
     `;
 
