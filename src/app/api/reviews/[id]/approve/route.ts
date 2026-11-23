@@ -1,23 +1,23 @@
 import { NextRequest } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
+import { errorResponse, successResponse } from "@/lib/api-response";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     // Verify user is employee or admin
@@ -26,10 +26,10 @@ export async function PUT(
     });
 
     if (!user || (user.role !== "EMPLOYEE" && user.role !== "ADMIN")) {
-      return apiError("Accès refusé. Espace réservé aux employés.", 403);
+      return errorResponse("Accès refusé. Espace réservé aux employés.", 403);
     }
 
-    const reviewId = params.id;
+    const reviewId = (await params).id;
 
     // Check if review exists and is pending
     const review = await prisma.review.findUnique({
@@ -37,11 +37,11 @@ export async function PUT(
     });
 
     if (!review) {
-      return apiError("Avis introuvable", 404);
+      return errorResponse("Avis introuvable", 404);
     }
 
     if (review.status !== "PENDING") {
-      return apiError("Cet avis a déjà été traité", 400);
+      return errorResponse("Cet avis a déjà été traité", 400);
     }
 
     // Approve review
@@ -49,25 +49,23 @@ export async function PUT(
       where: { id: reviewId },
       data: {
         status: "APPROVED",
-        moderatedBy: decoded.userId,
-        moderatedAt: new Date(),
       },
       include: {
-        reviewer: {
+        author: {
           select: { pseudo: true, email: true },
         },
-        reviewed: {
+        recipient: {
           select: { pseudo: true, email: true },
         },
       },
     });
 
-    return apiSuccess({
+    return successResponse({
       review: updatedReview,
       message: "Avis approuvé avec succès",
     });
   } catch (error) {
     console.error("Approve review error:", error);
-    return apiError("Erreur lors de l'approbation de l'avis", 500);
+    return errorResponse("Erreur lors de l'approbation de l'avis", 500);
   }
 }

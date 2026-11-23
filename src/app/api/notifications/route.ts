@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { verifyToken } from "@/lib/auth";
-import { apiSuccess } from "@/lib/api-response";
+import { successResponse } from "@/lib/api-response";
 import { getNotifications, markNotificationAsRead, markAllNotificationsAsRead } from "@/lib/logging";
 
 export async function GET(req: NextRequest) {
@@ -8,13 +8,13 @@ export async function GET(req: NextRequest) {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiSuccess({ notifications: [] });
+      return successResponse({ notifications: [] });
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiSuccess({ notifications: [] });
+      return successResponse({ notifications: [] });
     }
 
     const { searchParams } = new URL(req.url);
@@ -26,10 +26,10 @@ export async function GET(req: NextRequest) {
       limit,
     });
 
-    return apiSuccess({ notifications });
+    return successResponse({ notifications });
   } catch (error) {
     console.error("Get notifications error:", error);
-    return apiSuccess({ notifications: [] });
+    return successResponse({ notifications: [] });
   }
 }
 
@@ -38,13 +38,13 @@ export async function PUT(req: NextRequest) {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiSuccess({ message: "Non authentifié" }, 401);
+      return successResponse({ message: "Non authentifié" }, 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiSuccess({ message: "Token invalide" }, 401);
+      return successResponse({ message: "Token invalide" }, 401);
     }
 
     const body = await req.json();
@@ -52,17 +52,17 @@ export async function PUT(req: NextRequest) {
 
     if (markAllRead) {
       await markAllNotificationsAsRead(decoded.userId);
-      return apiSuccess({ message: "Toutes les notifications ont été marquées comme lues" });
+      return successResponse({ message: "Toutes les notifications ont été marquées comme lues" });
     }
 
     if (notificationId) {
       await markNotificationAsRead(notificationId);
-      return apiSuccess({ message: "Notification marquée comme lue" });
+      return successResponse({ message: "Notification marquée comme lue" });
     }
 
-    return apiSuccess({ message: "Aucune action effectuée" }, 400);
+    return successResponse({ message: "Aucune action effectuée" }, 400);
   } catch (error) {
     console.error("Update notifications error:", error);
-    return apiSuccess({ message: "Erreur lors de la mise à jour" }, 500);
+    return successResponse({ message: "Erreur lors de la mise à jour" }, 500);
   }
 }

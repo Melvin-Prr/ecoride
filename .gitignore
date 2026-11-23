@@ -42,5 +42,9 @@ next-env.d.ts
 
 # project management
 TODO.md
+IMPLEMENTATION_STATUS.md
+trello*.json
+trello*.md
+TRELLO*.md
 
 /src/generated/prisma

@@ -19,8 +19,8 @@ export default function ContactPage() {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
-                  <Mail className="h-6 w-6 text-green-600" />
+                <div className="h-12 w-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                  <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <span>Email</span>
               </CardTitle>
@@ -31,7 +31,7 @@ export default function ContactPage() {
               </p>
               <a
                 href="mailto:contact@ecoride.fr"
-                className="text-green-600 hover:text-green-700 font-semibold"
+                className="text-primary hover:text-primary/80 font-semibold"
               >
                 contact@ecoride.fr
               </a>
@@ -42,8 +42,8 @@ export default function ContactPage() {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
-                  <Phone className="h-6 w-6 text-green-600" />
+                <div className="h-12 w-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                  <Phone className="h-6 w-6 text-secondary" />
                 </div>
                 <span>Téléphone</span>
               </CardTitle>
@@ -54,7 +54,7 @@ export default function ContactPage() {
               </p>
               <a
                 href="tel:+33123456789"
-                className="text-green-600 hover:text-green-700 font-semibold"
+                className="text-secondary hover:text-secondary/80 font-semibold"
               >
                 01 23 45 67 89
               </a>
@@ -65,8 +65,8 @@ export default function ContactPage() {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
-                  <MapPin className="h-6 w-6 text-green-600" />
+                <div className="h-12 w-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                  <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <span>Adresse</span>
               </CardTitle>
@@ -86,8 +86,8 @@ export default function ContactPage() {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
-                  <Clock className="h-6 w-6 text-green-600" />
+                <div className="h-12 w-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                  <Clock className="h-6 w-6 text-secondary" />
                 </div>
                 <span>Horaires</span>
               </CardTitle>
@@ -160,15 +160,15 @@ export default function ContactPage() {
         {/* Legal Links */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-500">
-            <a href="/mentions-legales" className="hover:text-green-600">
+            <a href="/mentions-legales" className="hover:text-primary">
               Mentions légales
             </a>
             {" • "}
-            <a href="/politique-confidentialite" className="hover:text-green-600">
+            <a href="/politique-confidentialite" className="hover:text-primary">
               Politique de confidentialité
             </a>
             {" • "}
-            <a href="/cgu" className="hover:text-green-600">
+            <a href="/cgu" className="hover:text-primary">
               CGU
             </a>
           </p>

@@ -10,7 +10,7 @@ import {
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check authentication
@@ -19,7 +19,7 @@ export async function DELETE(
       return unauthorizedResponse("Vous devez être connecté");
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Get booking
     const booking = await prisma.booking.findUnique({

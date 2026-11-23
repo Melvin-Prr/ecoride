@@ -228,7 +228,7 @@ export default function CreateCarpoolPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-green-600" />
+                  <MapPin className="h-5 w-5 text-primary" />
                   Détails du trajet
                 </CardTitle>
               </CardHeader>
@@ -361,7 +361,7 @@ export default function CreateCarpoolPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Euro className="h-5 w-5 text-green-600" />
+                  <Euro className="h-5 w-5 text-secondary" />
                   Tarification et véhicule
                 </CardTitle>
               </CardHeader>
@@ -425,7 +425,7 @@ export default function CreateCarpoolPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="h-5 w-5 text-green-600" />
+                  <MessageCircle className="h-5 w-5 text-primary" />
                   Préférences de trajet
                 </CardTitle>
               </CardHeader>
@@ -499,7 +499,7 @@ export default function CreateCarpoolPage() {
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-green-600 hover:bg-green-700"
+                className="flex-1"
                 disabled={submitting || vehicles.length === 0}
               >
                 {submitting ? "Création..." : "Créer le trajet"}

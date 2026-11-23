@@ -47,72 +47,110 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  /* EcoRide Brand Colors - Charte Graphique 2026 */
+  --color-primary-blue: #1E90FF;
+  --color-secondary-orange: #D97706;
+  --color-grey: #F3F4F6;
+  --color-dark: #1E3A5F;
+  --color-darker: #0F172A;
+  --color-success: #10B981;
+  --color-warning: #F97316;
+  --color-error: #EF4444;
+
+  /* Border radius - moins arrondi, plus professionnel */
+  --radius: 0.5rem;
+
+  /* Tailwind CSS Design Tokens */
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.08 0 0); /* Darker #0F172A */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.08 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --popover-foreground: oklch(0.08 0 0);
+  
+  /* Primary = Blue #1E90FF */
+  --primary: oklch(0.61 0.213 248.36);
+  --primary-foreground: oklch(1 0 0);
+  
+  /* Secondary = Orange #D97706 */
+  --secondary: oklch(0.59 0.168 54.77);
+  --secondary-foreground: oklch(1 0 0);
+  
+  --muted: oklch(0.96 0.003 285.88);
+  --muted-foreground: oklch(0.48 0.013 285.88);
+  --accent: oklch(0.96 0.003 285.88);
+  --accent-foreground: oklch(0.145 0 0);
+  
+  /* Destructive = Error Red #EF4444 */
+  --destructive: oklch(0.62 0.246 27.33);
+  
+  --border: oklch(0.90 0.003 285.88);
+  --input: oklch(0.90 0.003 285.88);
+  --ring: oklch(0.61 0.213 248.36);
+  
+  /* Charts */
+  --chart-1: oklch(0.61 0.213 248.36); /* Blue */
+  --chart-2: oklch(0.59 0.168 54.77);  /* Orange */
+  --chart-3: oklch(0.60 0.195 162.48); /* Green */
+  --chart-4: oklch(0.70 0.11 295);     /* Purple */
+  --chart-5: oklch(0.50 0.18 340);     /* Pink */
+  
+  /* Sidebar */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-primary: oklch(0.61 0.213 248.36);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0.003 285.88);
+  --sidebar-accent-foreground: oklch(0.145 0 0);
+  --sidebar-border: oklch(0.90 0.003 285.88);
+  --sidebar-ring: oklch(0.61 0.213 248.36);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  /* Dark mode avec couleurs de la charte */
+  --background: oklch(0.08 0 0); /* Darker #0F172A */
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.14 0.005 248); /* Dark #1E3A5F */
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.14 0.005 248);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  
+  /* Primary = Blue #1E90FF (lighter in dark mode) */
+  --primary: oklch(0.70 0.213 248.36);
+  --primary-foreground: oklch(0.08 0 0);
+  
+  /* Secondary = Orange #D97706 */
+  --secondary: oklch(0.65 0.168 54.77);
+  --secondary-foreground: oklch(0.08 0 0);
+  
+  --muted: oklch(0.20 0.005 248);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.20 0.005 248);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
+  
+  /* Destructive = Error Red (lighter in dark mode) */
+  --destructive: oklch(0.704 0.246 27.33);
+  
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --ring: oklch(0.70 0.213 248.36);
+  
+  /* Charts - Same colors */
+  --chart-1: oklch(0.70 0.213 248.36);
+  --chart-2: oklch(0.65 0.168 54.77);
+  --chart-3: oklch(0.65 0.195 162.48);
+  --chart-4: oklch(0.75 0.11 295);
+  --chart-5: oklch(0.60 0.18 340);
+  
+  /* Sidebar */
+  --sidebar: oklch(0.14 0.005 248);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.70 0.213 248.36);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.20 0.005 248);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: oklch(0.70 0.213 248.36);
 }
 
 @layer base {

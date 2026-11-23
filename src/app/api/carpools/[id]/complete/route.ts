@@ -1,29 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
+import { errorResponse, successResponse } from "@/lib/api-response";
 import { sendTripCompletedNotification } from "@/lib/email";
 import { createLog, createNotification } from "@/lib/logging";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     const userId = decoded.userId;
-    const carpoolId = params.id;
+    const carpoolId = (await params).id;
 
     // Find carpool
     const carpool = await prisma.carpool.findUnique({
@@ -38,17 +38,17 @@ where: { id: carpoolId },
     });
 
     if (!carpool) {
-      return apiError("Covoiturage introuvable", 404);
+      return errorResponse("Covoiturage introuvable", 404);
     }
 
     // Verify user is the driver
     if (carpool.driverId !== userId) {
-      return apiError("Seul le conducteur peut terminer ce trajet", 403);
+      return errorResponse("Seul le conducteur peut terminer ce trajet", 403);
     }
 
     // Verify status
     if (carpool.status !== "IN_PROGRESS") {
-      return apiError(
+      return errorResponse(
         carpool.status === "PENDING"
           ? "Vous devez d'abord démarrer le trajet"
           : "Ce trajet est déjà terminé",
@@ -115,7 +115,7 @@ where: { id: carpoolId },
         userId: booking.passengerId,
         type: "trip_complete",
         title: "Trajet terminé",
-        message: `Le trajet ${carpool.departure} → ${carpool.destination} est terminé. Laissez un avis !",
+        message: `Le trajet ${carpool.departure} → ${carpool.destination} est terminé. Laissez un avis !`,
         data: { carpoolId: carpool.id, bookingId: booking.id },
       }).catch(console.error);
     });
@@ -124,7 +124,7 @@ where: { id: carpoolId },
       userId: userId,
       type: "credits",
       title: "Crédits gagnés",
-      message: `Vous avez gagné ${result.creditsToAward} crédits pour votre trajet`,
+      message: `Vous avez gagne ${result.creditsToAward} credits pour votre trajet`,
       data: { carpoolId: carpool.id, credits: result.creditsToAward },
     }).catch(console.error);
 
@@ -141,12 +141,12 @@ where: { id: carpoolId },
       statusCode: 200,
     }).catch(console.error);
 
-    return apiSuccess({
+    return successResponse({
       ...result,
-      message: `Trajet terminé avec succès. Vous avez gagné ${creditsToAward} crédits.`,
+      message: `Trajet terminé avec succès. Vous avez gagné ${result.creditsToAward} crédits.`,
     });
   } catch (error) {
     console.error("Complete carpool error:", error);
-    return apiError("Erreur lors de la finalisation du trajet", 500);
+    return errorResponse("Erreur lors de la finalisation du trajet", 500);
   }
 }

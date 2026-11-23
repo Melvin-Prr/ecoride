@@ -46,13 +46,13 @@ export default function FilterPanel({ onFilterChange }: FilterPanelProps) {
             <Checkbox
               id="eco"
               checked={filters.ecoOnly}
-              onCheckedChange={(checked) => updateFilter("ecoOnly", checked)}
+              onCheckedChange={(checked) => updateFilter("ecoOnly", checked === true)}
             />
             <Label
               htmlFor="eco"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2 cursor-pointer"
             >
-              <Leaf className="h-4 w-4 text-green-600" />
+              <Leaf className="h-4 w-4 text-success" />
               Voiture électrique uniquement
             </Label>
           </div>
@@ -65,10 +65,10 @@ export default function FilterPanel({ onFilterChange }: FilterPanelProps) {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label className="flex items-center gap-2">
-              <Euro className="h-4 w-4 text-green-600" />
+              <Euro className="h-4 w-4 text-secondary" />
               Prix maximum
             </Label>
-            <span className="text-sm font-semibold text-green-600">
+            <span className="text-sm font-semibold text-secondary">
               {filters.maxPrice} crédits
             </span>
           </div>
@@ -90,10 +90,10 @@ export default function FilterPanel({ onFilterChange }: FilterPanelProps) {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-green-600" />
+              <Clock className="h-4 w-4 text-primary" />
               Durée maximum
             </Label>
-            <span className="text-sm font-semibold text-green-600">
+            <span className="text-sm font-semibold text-primary">
               {Math.floor(filters.maxDuration / 60)}h{filters.maxDuration % 60 > 0 ? `${filters.maxDuration % 60}` : ""}
             </span>
           </div>
@@ -118,7 +118,7 @@ export default function FilterPanel({ onFilterChange }: FilterPanelProps) {
               <Star className="h-4 w-4 text-yellow-500" />
               Note minimum
             </Label>
-            <span className="text-sm font-semibold text-green-600">
+            <span className="text-sm font-semibold text-primary">
               {filters.minRating > 0 ? `${filters.minRating.toFixed(1)} ⭐` : "Toutes"}
             </span>
           </div>
@@ -143,19 +143,19 @@ export default function FilterPanel({ onFilterChange }: FilterPanelProps) {
             <div className="space-y-1 text-xs text-gray-600">
               {filters.ecoOnly && (
                 <div className="flex items-center gap-1">
-                  <Leaf className="h-3 w-3 text-green-600" />
+                  <Leaf className="h-3 w-3 text-success" />
                   <span>Véhicules écologiques</span>
                 </div>
               )}
               {filters.maxPrice < 100 && (
                 <div className="flex items-center gap-1">
-                  <Euro className="h-3 w-3 text-green-600" />
+                  <Euro className="h-3 w-3 text-secondary" />
                   <span>Max {filters.maxPrice} crédits</span>
                 </div>
               )}
               {filters.maxDuration < 480 && (
                 <div className="flex items-center gap-1">
-                  <Clock className="h-3 w-3 text-green-600" />
+                  <Clock className="h-3 w-3 text-primary" />
                   <span>Max {Math.floor(filters.maxDuration / 60)}h</span>
                 </div>
               )}

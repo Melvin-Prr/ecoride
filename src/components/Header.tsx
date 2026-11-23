@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Leaf, Menu, X, User, LogOut, Coins } from "lucide-react";
+import { Menu, X, User, LogOut, Coins } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Header() {
@@ -27,30 +28,34 @@ export default function Header() {
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
-            <div className="h-10 w-10 rounded-lg bg-green-600 flex items-center justify-center">
-              <Leaf className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-gray-900">EcoRide</span>
+          <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
+            <Image 
+              src="/assets/logo.png" 
+              alt="EcoRide" 
+              width={150} 
+              height={40}
+              priority
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className="text-gray-700 hover:text-green-600 font-medium transition"
+              className="text-gray-700 hover:text-primary font-medium transition"
             >
               Accueil
             </Link>
             <Link
               href="/covoiturages"
-              className="text-gray-700 hover:text-green-600 font-medium transition"
+              className="text-gray-700 hover:text-primary font-medium transition"
             >
               Covoiturages
             </Link>
             <Link
               href="/contact"
-              className="text-gray-700 hover:text-green-600 font-medium transition"
+              className="text-gray-700 hover:text-primary font-medium transition"
             >
               Contact
             </Link>
@@ -61,7 +66,7 @@ export default function Header() {
             {user ? (
               <>
                 <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <Coins className="h-4 w-4 text-green-600" />
+                  <Coins className="h-4 w-4 text-secondary" />
                   <span className="font-semibold">{user.credits} crédits</span>
                 </div>
                 <Button asChild variant="outline">
@@ -80,7 +85,7 @@ export default function Header() {
                 <Button asChild variant="outline">
                   <Link href="/login">Connexion</Link>
                 </Button>
-                <Button asChild className="bg-green-600 hover:bg-green-700">
+                <Button asChild>
                   <Link href="/register">Inscription</Link>
                 </Button>
               </>
@@ -106,21 +111,21 @@ export default function Header() {
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4 space-y-4">
             <Link
               href="/"
-              className="block text-gray-700 hover:text-green-600 font-medium transition py-2"
+              className="block text-gray-700 hover:text-primary font-medium transition py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Accueil
             </Link>
             <Link
               href="/covoiturages"
-              className="block text-gray-700 hover:text-green-600 font-medium transition py-2"
+              className="block text-gray-700 hover:text-primary font-medium transition py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Covoiturages
             </Link>
             <Link
               href="/contact"
-              className="block text-gray-700 hover:text-green-600 font-medium transition py-2"
+              className="block text-gray-700 hover:text-primary font-medium transition py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
@@ -133,7 +138,7 @@ export default function Header() {
                     <div className="flex-1">
                       <p className="font-semibold text-gray-900">{user.pseudo}</p>
                       <p className="text-sm text-gray-600 flex items-center gap-1">
-                        <Coins className="h-3 w-3 text-green-600" />
+                        <Coins className="h-3 w-3 text-secondary" />
                         {user.credits} crédits
                       </p>
                     </div>
@@ -155,10 +160,7 @@ export default function Header() {
                       Connexion
                     </Link>
                   </Button>
-                  <Button
-                    asChild
-                    className="w-full bg-green-600 hover:bg-green-700"
-                  >
+                  <Button asChild className="w-full">
                     <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
                       Inscription
                     </Link>

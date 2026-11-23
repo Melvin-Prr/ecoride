@@ -56,11 +56,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-100 py-12 px-4">
       <div className="container mx-auto max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="h-12 w-12 rounded-lg bg-green-600 flex items-center justify-center">
+          <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
             <Leaf className="h-8 w-8 text-white" />
           </div>
           <span className="text-3xl font-bold text-gray-900">EcoRide</span>
@@ -111,7 +111,7 @@ export default function LoginPage() {
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs text-green-600 hover:text-green-700"
+                    className="text-xs text-primary hover:text-primary/80"
                   >
                     Mot de passe oublié ?
                   </Link>
@@ -134,7 +134,7 @@ export default function LoginPage() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700"
+                className="w-full"
                 size="lg"
                 disabled={loading}
               >
@@ -147,7 +147,7 @@ export default function LoginPage() {
                   Vous n&apos;avez pas de compte ?{" "}
                   <Link
                     href="/register"
-                    className="text-green-600 hover:text-green-700 font-medium"
+                    className="text-primary hover:text-primary/80 font-medium"
                   >
                     Créer un compte
                   </Link>

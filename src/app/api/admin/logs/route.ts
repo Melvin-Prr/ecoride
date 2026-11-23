@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { verifyToken } from "@/lib/auth";
-import { apiError, apiSuccess } from "@/lib/api-response";
-import prisma from "@/lib/prisma";
+import { errorResponse, successResponse } from "@/lib/api-response";
+import { prisma } from "@/lib/prisma";
 import { getLogs, getLogStatistics } from "@/lib/logging";
 
 export async function GET(req: NextRequest) {
@@ -9,13 +9,13 @@ export async function GET(req: NextRequest) {
     // Verify authentication
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return apiError("Token manquant", 401);
+      return errorResponse("Token manquant", 401);
     }
 
     const token = authHeader.substring(7);
     const decoded = verifyToken(token);
     if (!decoded) {
-      return apiError("Token invalide", 401);
+      return errorResponse("Token invalide", 401);
     }
 
     // Verify user is admin
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (!user || user.role !== "ADMIN") {
-      return apiError("Accès refusé. Espace réservé aux administrateurs.", 403);
+      return errorResponse("Accès refusé. Espace réservé aux administrateurs.", 403);
     }
 
     const { searchParams } = new URL(req.url);
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         startDate ? new Date(startDate) : undefined,
         endDate ? new Date(endDate) : undefined
       );
-      return apiSuccess({ statistics: stats });
+      return successResponse({ statistics: stats });
     }
 
     const logs = await getLogs({
@@ -51,9 +51,9 @@ export async function GET(req: NextRequest) {
       limit,
     });
 
-    return apiSuccess({ logs, count: logs.length });
+    return successResponse({ logs, count: logs.length });
   } catch (error) {
     console.error("Get logs error:", error);
-    return apiError("Erreur lors de la récupération des logs", 500);
+    return errorResponse("Erreur lors de la récupération des logs", 500);
   }
 }
